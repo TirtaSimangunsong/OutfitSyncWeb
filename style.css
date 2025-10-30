@@ -1,22 +1,181 @@
 /*
-beige outfit sync: F9F6F2
-pink os: FFD1D2
-pinky: FFC0CB
-pink pink: F3DBDC
+Colors
+beige: #F9F6F2
+pink os: #FFD1D2
+pinky: #FFC0CB
+pink light: #F3DBDC
 */
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #F9F6F2; 
-    font-family: 'Poppins', sans-serif;
-    color: #FFC0CB;
+  font-family: 'Poppins', sans-serif;
+  background-color: #F9F6F2;
+  color: #FFC0CB;
+  overflow: hidden;
+}
+
+/* ---------- LANDING PAGE ---------- */
+.landing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F9F6F2;
+  transition: opacity 1s ease;
+}
+
+.logo {
+  font-size: 8rem;
+  font-weight: 500;
+  color: #FFD1D2;
+  letter-spacing: -5px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.brand-name {
+  font-size: 1.4rem;
+  color: #C8A2A2;
+  letter-spacing: 2px;
+}
+
+/* Fade animation */
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- LOGIN PAGE ---------- */
+.login-page {
+  display: flex;
+  height: 100vh;
+  opacity: 0;
+  background-color: #F9F6F2;
+}
+
+.login-page.hidden {
+  display: none;
+}
+
+/* Left side (Logo) */
+.left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Right side (Form) */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4rem;
+  color: #000;
+}
+
+.right h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.signup-text {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.signup-text a {
+  color: #FFC0CB;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* Input fields */
+.login-form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.divider span {
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.divider p {
+  margin: 0 1rem;
+  color: #999;
+}
+
+/* Google button */
+.google-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.google-btn img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* Login button */
+.login-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #FFC0CB;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(255, 192, 203, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #F3DBDC;
+  color: #A67A7A;
+  transform: translateY(-2px);
 }

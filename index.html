@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outfit Sync</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OutfitSync</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Hello World!</h1>
+  <!-- Landing Page -->
+  <section class="landing" id="landing">
+    <div class="logo-container">
+      <h1 class="logo">OS</h1>
+      <p class="brand-name">OUTFITSYNC</p>
+    </div>
+  </section>
+
+  <!-- Login Page -->
+  <section class="login-page hidden" id="login-page">
+    <div class="left">
+      <div class="logo-container">
+        <h1 class="logo">OS</h1>
+        <p class="brand-name">OUTFITSYNC</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <h2>Login</h2>
+      <p class="signup-text">Don’t have an account? <a href="#">Sign up</a></p>
+
+      <form class="login-form">
+        <input type="text" placeholder="Email or phone" required>
+        <input type="password" placeholder="Password" required>
+
+        <div class="divider">
+          <span></span>
+          <p>Or</p>
+          <span></span>
+        </div>
+
+        <button type="button" class="google-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon">
+        </button>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
