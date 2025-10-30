@@ -12,4 +12,4 @@ setTimeout(() => {
     loginPage.classList.remove('hidden');
     loginPage.classList.add('fade-in');
   }, 1000); // matches CSS transition duration
-}, 5000); // delay before showing login
+}, 500); // delay before showing login
