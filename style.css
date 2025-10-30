@@ -6,6 +6,7 @@ pinky: #FFC0CB
 pink light: #F3DBDC
 */
 
+/* ---------- BASE STYLES ---------- */
 html {
   scroll-behavior: smooth;
 }
@@ -22,6 +23,29 @@ body {
   color: #FFC0CB;
   overflow: hidden;
 }
+
+/* ---------- REUSABLE BUTTON STYLE (Final Look) ---------- */
+.btn-main {
+  width: 100%;
+  max-width: 352px;
+  padding: 1rem 0;
+  background-color: #FAD2D2; 
+  color: #000; 
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 16px; 
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+  transition: all 0.25s ease;
+}
+
+.btn-main:hover {
+  background-color: #F3BFC0; 
+  transform: translateY(-2px); 
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12); 
+}
+
 
 /* ---------- LANDING PAGE ---------- */
 .landing {
@@ -96,7 +120,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 0 3rem;
-  margin-left: 10rem; /* ➜ ini yang menggeser ke kanan */
+  margin-left: 10rem;
   color: #000;
 }
 
@@ -160,7 +184,7 @@ body {
 /* Google button */
 .google-btn {
   display: flex;
-  justify-content: center; /* logo di tengah */
+  justify-content: center;
   width: 100%;
   background: none;
   border: none;
@@ -181,33 +205,16 @@ body {
   border-color: #FFC0CB;
 }
 
-/* Login button */
-.login-btn {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #FFC0CB;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  box-shadow: 0 4px 10px rgba(255, 192, 203, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover {
-  background-color: #F3DBDC;
-  color: #A67A7A;
-  transform: translateY(-2px);
-}
-
 /* ---------- SIGNUP PAGE ---------- */
 .signup-page {
   display: flex;
   height: 100vh;
   opacity: 0;
   background-color: #F9F6F2;
+}
+
+.signup-page.hidden {
+  display: none;
 }
 
 .signup-page .right {
@@ -219,11 +226,7 @@ body {
   padding: 0 3rem;
   margin-left: 10rem;
   color: #000;
-  transform: translateY(-40px); /* 🔼 geser form ke atas sedikit */
-}
-
-.signup-page.hidden {
-  display: none;
+  transform: translateY(-40px);
 }
 
 .signup-form {
@@ -265,7 +268,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-left: 9rem; /* ✅ samakan dengan login/signup */
+  margin-left: 9rem;
 }
 
 /* kanan (form) */
@@ -275,8 +278,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0 3rem; /* ✅ samakan juga */
-  margin-left: 10rem; /* ✅ buat posisi konsisten */
+  padding: 0 3rem;
+  margin-left: 10rem;
   color: #000;
 }
 
@@ -308,7 +311,6 @@ body {
   gap: 0.8rem;
   margin-bottom: 2rem;
   max-width: 360px;
-  flex-wrap: nowrap;
 }
 
 .code-inputs input {
@@ -326,28 +328,6 @@ body {
 .code-inputs input:focus {
   border-color: #FFC0CB;
   box-shadow: 0 0 10px rgba(255, 192, 203, 0.4);
-}
-
-/* Confirm Button */
-.login-btn {
-  width: 100%;
-  max-width: 352px; /* disamakan dengan .code-inputs */
-  padding: 1rem 0;
-  background-color: #f8bfc3;
-  color: #fff;
-  font-weight: 500;
-  font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
-}
-
-
-.login-btn:hover {
-  background-color: #f7a9ae;
-  transform: translateY(-1px);
 }
 
 /* Resend text */
@@ -405,3 +385,73 @@ body {
   }
 }
 
+/* ---------- VERIFIED PAGE ---------- */
+.verified-page {
+  display: flex;
+  height: 100vh;
+  background-color: #F9F6F2;
+  opacity: 0;
+}
+
+.verified-page.hidden {
+  display: none;
+}
+
+/* Kiri (logo) */
+.verified-page .left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 9rem;
+}
+
+.verified-page .left .brand {
+  margin-top: 0.5rem;
+  color: #C8A2A2;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+}
+
+/* Kanan (konten) */
+.verified-page .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 3rem;
+  margin-left: 10rem;
+  color: #000;
+}
+
+.verified-page h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.success-text {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.subtext {
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 2rem;
+}
+
+.checkmark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.circle svg {
+  width: 140px;
+  height: 140px;
+}
