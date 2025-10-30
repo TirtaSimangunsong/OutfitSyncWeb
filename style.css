@@ -1,0 +1,22 @@
+/*
+beige outfit sync: F9F6F2
+pink os: FFD1D2
+pinky: FFC0CB
+pink pink: F3DBDC
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F9F6F2; 
+    font-family: 'Poppins', sans-serif;
+    color: #FFC0CB;
+}
