@@ -480,10 +480,12 @@ body {
 
 /* tombol kiri atas */
 .top-left {
-  position: absolute;
+  position: fixed; /* ganti dari absolute ke fixed */
   top: 1.2rem;
   left: 1.2rem;
+  z-index: 1000; /* pastikan tombol di atas elemen lain */
 }
+
 
 .logo-btn {
   display: flex;
