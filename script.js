@@ -16,6 +16,7 @@ setTimeout(() => {
 // ----- PAGE SWITCHING -----
 const loginPage = document.getElementById('login-page');
 const signupPage = document.getElementById('signup-page');
+const mainLanding = document.getElementById('main-landing'); 
 
 // tombol/link "Sign up" di login page
 const signUpLink = document.querySelector('.login-page .signup-text a');
@@ -92,7 +93,7 @@ if (resendLink) {
 
 
 // ----- VERIFIED PAGE SWITCH -----
-const confirmBtn = document.querySelector('.verify-page .btn-main'); // ✅ pakai class baru
+const confirmBtn = document.querySelector('.verify-page .btn-main');
 const verifiedPage = document.getElementById('verified-page');
 
 if (confirmBtn) {
@@ -105,7 +106,7 @@ if (confirmBtn) {
 }
 
 
-// ----- DONE BUTTON (optional: kembali ke login) -----
+// ----- DONE BUTTON (kembali ke login) -----
 const doneBtn = document.querySelector('.verified-page .btn-main');
 
 if (doneBtn) {
@@ -113,5 +114,18 @@ if (doneBtn) {
     verifiedPage.classList.add('hidden');
     loginPage.classList.remove('hidden');
     loginPage.classList.add('fade-in');
+  });
+}
+
+
+// ----- LOGIN -> MAIN LANDING -----
+const loginForm = document.querySelector('.login-form');
+
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    loginPage.classList.add('hidden');
+    mainLanding.classList.remove('hidden');
+    mainLanding.classList.add('fade-in');
   });
 }
