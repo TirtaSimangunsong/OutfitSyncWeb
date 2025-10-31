@@ -461,3 +461,67 @@ body {
     transform: scale(1);
   }
 }
+
+/* ---------- MAIN LANDING (AFTER LOGIN) ---------- */
+.main-landing {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-color: #F9F6F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-landing.hidden {
+  display: none;
+}
+
+/* tombol kiri atas */
+.top-left {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+}
+
+.logo-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #F3DBDC;
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.logo-btn:hover {
+  transform: scale(1.03);
+}
+
+.logo-small {
+  width: 40px;
+  margin-bottom: 10px;
+  height: auto;
+}
+
+.arrow-icon {
+  width: 10px;
+  height: auto;
+}
+
+/* teks tengah */
+.center-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-logo {
+  width: 400px;
+  height: auto;
+  opacity: 0.9;
+}
