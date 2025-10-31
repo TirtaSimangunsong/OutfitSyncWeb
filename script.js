@@ -16,7 +16,6 @@ setTimeout(() => {
 // ----- PAGE SWITCHING -----
 const loginPage = document.getElementById('login-page');
 const signupPage = document.getElementById('signup-page');
-const mainLanding = document.getElementById('main-landing'); 
 
 // tombol/link "Sign up" di login page
 const signUpLink = document.querySelector('.login-page .signup-text a');
@@ -129,3 +128,26 @@ if (loginForm) {
     mainLanding.classList.add('fade-in');
   });
 }
+
+// ----- MAIN LANDING -> HOME PAGE (otomatis) -----
+const mainLanding = document.getElementById('main-landing');
+const homePage = document.getElementById('home-page');
+
+if (mainLanding && homePage) {
+  // Saat main landing muncul, tunggu sebentar lalu pindah ke home
+  const observer = new MutationObserver(() => {
+    if (!mainLanding.classList.contains('hidden')) {
+      setTimeout(() => {
+        mainLanding.classList.add('fade-out');
+        setTimeout(() => {
+          mainLanding.style.display = 'none';
+          homePage.classList.remove('hidden');
+          homePage.classList.add('fade-in');
+        }, 1000); // waktu transisi fade-out
+      }, 1500); // waktu tampil sebelum pindah
+    }
+  });
+
+  observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
+}
+
