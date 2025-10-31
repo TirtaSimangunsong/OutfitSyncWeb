@@ -180,4 +180,22 @@ if (mainLanding && homePage) {
   observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
 }
 
+//transisi main landing page -> homepage
+if (mainLanding && homePage) {
+  const observer = new MutationObserver(() => {
+    if (!mainLanding.classList.contains('hidden')) {
+      setTimeout(() => {
+        mainLanding.classList.add('fade-out');
+        setTimeout(() => {
+          mainLanding.style.display = 'none';
+          homePage.classList.remove('hidden');
+          homePage.classList.add('fade-in');
+        }, 1000);
+      }, 1500);
+    }
+  });
+
+  observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
+}
+
 

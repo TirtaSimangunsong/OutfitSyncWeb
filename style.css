@@ -472,20 +472,51 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  transition: opacity 1s ease;
 }
 
 .main-landing.hidden {
   display: none;
 }
 
-/* tombol kiri atas */
-.top-left {
-  position: fixed; /* agar tidak bergantung pada section */
-  top: 1.2rem;
-  left: 1.2rem;
-  z-index: 2000; /* pastikan selalu di atas semua elemen */
+/* teks tengah */
+.center-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.text-logo {
+  width: 400px;
+  height: auto;
+  opacity: 0.9;
+}
+
+/* ---------- HOME PAGE ---------- */
+.home-page {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-color: #F9F6F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.home-page.hidden {
+  display: none;
+}
+
+/* tombol kiri atas (hanya muncul di home page) */
+.home-page .top-left {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 2000;
+}
 
 .logo-btn {
   display: flex;
@@ -513,37 +544,6 @@ body {
 .arrow-icon {
   width: 10px;
   height: auto;
-}
-
-/* teks tengah */
-.center-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.text-logo {
-  width: 400px;
-  height: auto;
-  opacity: 0.9;
-}
-
-/* HOME PAGE */
-.home-page {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  background-color: #F9F6F2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.home-page.hidden {
-  display: none;
 }
 
 .home-title {
