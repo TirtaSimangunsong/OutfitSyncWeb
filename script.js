@@ -151,3 +151,33 @@ if (mainLanding && homePage) {
   observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
 }
 
+// ----- MAIN LANDING ----- //
+const topLeftBtn = document.querySelector('.top-left'); // tombol kiri atas
+
+if (mainLanding && homePage) {
+  // tombol kiri atas tetap tampil (tidak ikut fade)
+  if (topLeftBtn) {
+    topLeftBtn.style.position = 'fixed';
+    topLeftBtn.style.top = '1.2rem';
+    topLeftBtn.style.left = '1.2rem';
+    topLeftBtn.style.zIndex = '1000';
+  }
+
+  // jalankan transisi otomatis
+  const observer = new MutationObserver(() => {
+    if (!mainLanding.classList.contains('hidden')) {
+      setTimeout(() => {
+        mainLanding.classList.add('fade-out');
+        setTimeout(() => {
+          mainLanding.style.display = 'none';
+          homePage.classList.remove('hidden');
+          homePage.classList.add('fade-in');
+        }, 1000); // waktu fade-out
+      }, 1500); // waktu tampil main landing
+    }
+  });
+
+  observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
+}
+
+
