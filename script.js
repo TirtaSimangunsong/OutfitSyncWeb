@@ -198,4 +198,24 @@ if (mainLanding && homePage) {
   observer.observe(mainLanding, { attributes: true, attributeFilter: ['class'] });
 }
 
+// ----- DROPDOWN BUTTON -----
+const menuBtn = document.getElementById('menu-btn');
+const dropdownMenu = document.getElementById('dropdown-menu');
+
+if (menuBtn && dropdownMenu) {
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+    menuBtn.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.classList.remove('show');
+      menuBtn.classList.remove('active');
+    }
+  });
+}
+
+
 
