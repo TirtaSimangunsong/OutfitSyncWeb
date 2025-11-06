@@ -18,9 +18,9 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #F9F6F2;
-  color: #FFC0CB;
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f6f2;
+  color: #ffc0cb;
   overflow: hidden;
 }
 
@@ -29,23 +29,22 @@ body {
   width: 100%;
   max-width: 352px;
   padding: 1rem 0;
-  background-color: #FAD2D2; 
-  color: #000; 
+  background-color: #fad2d2;
+  color: #000;
   font-size: 1rem;
   font-weight: 500;
   border: none;
-  border-radius: 16px; 
+  border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.25s ease;
 }
 
 .btn-main:hover {
-  background-color: #F3BFC0; 
-  transform: translateY(-2px); 
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12); 
+  background-color: #f3bfc0;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
 }
-
 
 /* ---------- LANDING PAGE ---------- */
 .landing {
@@ -54,13 +53,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
   transition: opacity 1s ease;
 }
 
 .brand-name {
   font-size: 1.4rem;
-  color: #C8A2A2;
+  color: #c8a2a2;
   letter-spacing: 2px;
 }
 
@@ -74,8 +73,12 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ---------- LOGIN PAGE ---------- */
@@ -83,7 +86,7 @@ body {
   display: flex;
   height: 100vh;
   opacity: 0;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
 }
 
 .login-page.hidden {
@@ -108,7 +111,7 @@ body {
 
 .left .brand {
   font-size: 1.1rem;
-  color: #C8A2A2;
+  color: #c8a2a2;
   letter-spacing: 2px;
 }
 
@@ -137,7 +140,7 @@ body {
 }
 
 .signup-text a {
-  color: #FFC0CB;
+  color: #ffc0cb;
   text-decoration: none;
   font-weight: 500;
 }
@@ -163,7 +166,7 @@ body {
 }
 
 .login-form input:focus {
-  border-color: #FFC0CB;
+  border-color: #ffc0cb;
   box-shadow: 0 0 0 3px rgba(255, 192, 203, 0.2);
 }
 
@@ -202,7 +205,7 @@ body {
 }
 
 .google-btn:hover img {
-  border-color: #FFC0CB;
+  border-color: #ffc0cb;
 }
 
 /* ---------- SIGNUP PAGE ---------- */
@@ -210,7 +213,7 @@ body {
   display: flex;
   height: 100vh;
   opacity: 0;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
 }
 
 .signup-page.hidden {
@@ -245,7 +248,7 @@ body {
 }
 
 .signup-form input:focus {
-  border-color: #FFC0CB;
+  border-color: #ffc0cb;
   box-shadow: 0 0 0 3px rgba(255, 192, 203, 0.2);
 }
 
@@ -253,7 +256,7 @@ body {
 .verify-page {
   display: flex;
   height: 100vh;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
   opacity: 0;
 }
 
@@ -300,7 +303,7 @@ body {
 }
 
 .email-text {
-  color: #A67A7A;
+  color: #a67a7a;
   font-weight: 500;
 }
 
@@ -326,7 +329,7 @@ body {
 }
 
 .code-inputs input:focus {
-  border-color: #FFC0CB;
+  border-color: #ffc0cb;
   box-shadow: 0 0 10px rgba(255, 192, 203, 0.4);
 }
 
@@ -347,7 +350,7 @@ body {
 }
 
 .resend-text a:hover {
-  color: #FFC0CB;
+  color: #ffc0cb;
 }
 
 /* Responsive tweak */
@@ -392,7 +395,7 @@ body {
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
   text-align: center;
   opacity: 0;
 }
@@ -467,7 +470,7 @@ body {
   position: relative;
   height: 100vh;
   width: 100%;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -497,7 +500,7 @@ body {
   position: relative;
   height: 100vh;
   width: 100%;
-  background-color: #F9F6F2;
+  background-color: #f9f6f2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -522,7 +525,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #F3DBDC;
+  background-color: #f3dbdc;
   padding: 0.5rem 0.8rem;
   border-radius: 15px;
   border: none;
@@ -565,7 +568,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  background-color: #F3DBDC;
+  background-color: #f3dbdc;
   padding: 0.6rem 0.9rem;
   border-radius: 15px;
   border: none;
@@ -575,7 +578,7 @@ body {
 }
 
 .logo-btn.active {
-  background-color: #E3B9BA; /* warna saat aktif */
+  background-color: #e3b9ba; /* warna saat aktif */
 }
 
 .logo-small {
@@ -604,7 +607,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  background-color: #F3DBDC;
+  background-color: #f3dbdc;
   padding: 0.6rem 0.9rem;
   border-radius: 28px;
   border: none;
@@ -614,7 +617,7 @@ body {
 }
 
 .logo-btn.active {
-  background-color: #E3B9BA; /* warna saat aktif */
+  background-color: #e3b9ba; /* warna saat aktif */
 }
 
 .logo-small {
@@ -635,18 +638,18 @@ body {
 /* ---------- DROPDOWN MENU (final layout) ---------- */
 .dropdown-menu {
   position: absolute;
-  top: 85px; 
-  left: 35px; 
-  background-color: #F3DBDC;
+  top: 85px;
+  left: 35px;
+  background-color: #f3dbdc;
   padding: 2rem 0;
-  border-radius: 25px; 
+  border-radius: 25px;
   box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 2.2rem;
-  width: 90px; 
+  width: 90px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
