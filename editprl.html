@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile — Revisi (avatar + gender + theme)</title>
+  <link rel="stylesheet" href="editprl.css" />
+</head>
+<body>
+  <!-- Tombol kiri: kembali -->
+  <a href="./profil.html" class="bg-icon left" title="Kembali">
+    <img src="assets/balik.png" alt="back">
+  </a>
+
+  <!-- Tombol kanan: menuju halaman bantuan -->
+  <a href="help.html" class="bg-icon right" title="Help">
+    <img src="assets/nanya.png" alt="help">
+  </a>
+
+  <div class="card" role="region" aria-label="Profile card">
+    <div class="avatar-wrap" aria-hidden="false">
+      <div class="avatar-disk" role="img" aria-label="User avatar disk">
+        <label for="avatarInput" style="width:100%; height:100%; border-radius:50%; display:block; cursor:pointer; pointer-events:auto;">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&crop=faces"
+               alt="avatar"
+               class="avatar-img"
+               id="avatarPreviewImg">
+        </label>
+        <button id="editBadge" class="edit-badge" title="Edit avatar">
+          <img src="assets/pen.png" alt="edit">
+        </button>
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div class="grid">
+      <div class="form">
+        <form id="profileForm" onsubmit="return false;" novalidate>
+          <div style="margin-top:12px">
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text" value="Clarissa" required />
+            <div class="error" id="err-name">Nama wajib diisi.</div>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+              <option value="">-- Pilih gender --</option>
+              <option value="laki">Laki-laki</option>
+              <option value="perempuan">Perempuan</option>
+              <option value="mental">Mental ill</option>
+            </select>
+            <div class="error" id="err-gender">Pilih gender (Laki-laki, Perempuan, atau Mental Ill).</div>
+
+            <label for="birth">Birth Date:</label>
+            <input id="birth" name="birth" type="date" required />
+            <div class="date-display" id="birthDisplay" aria-live="polite"></div>
+            <div class="error" id="err-birth">Tanggal lahir wajib dipilih.</div>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" value="clarissaishere@gmail.com" required />
+            <div class="error" id="err-email">Masukkan email yang valid.</div>
+
+            <label for="phone">Phone Number:</label>
+            <input id="phone" name="phone" type="text" value="+62-888-2222" />
+            <div class="error" id="err-phone">Nomor telepon wajib diisi.</div>
+          </div>
+        </form>
+      </div>
+
+      <aside class="theme-box" aria-label="Theme and actions">
+        <div style="font-weight:700;color:#333">Theme</div>
+        <div class="swatches" role="list">
+          <div class="swatch pink selected" data-theme="pink" title="Pink" role="listitem" tabindex="0"></div>
+          <div class="swatch blue" data-theme="blue" title="Blue" role="listitem" tabindex="0"></div>
+        </div>
+
+        <div class="controls">
+          <button class="btn cancel" id="cancelBtn" type="button">Cancel</button>
+          <button class="btn save" id="saveBtn" type="button">Save</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <input id="avatarInput" type="file" accept="image/*" style="display:none">
+  <script src="editprl.js"></script>
+</body>
+</html>
