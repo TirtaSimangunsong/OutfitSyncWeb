@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tombol Responsif dengan Sub-Tombol</title>
+  <link rel="stylesheet" href="profil.css" />
+</head>
+<body>
+<!-- Tombol bulat kiri atas (pakai gambar PNG untuk ikon) -->
+<button class="btn-kiri-atas" id="btnKiriAtas" aria-label="Menu OS" aria-expanded="false" type="button">
+  <!-- Ganti src nanti dengan nama file PNG yang kamu upload (misal: os-icon.png) -->
+  <img id="btnIcon" src="images/logo-small.png"  width="38" height="38" />
+  <!-- segitiga kecil -->
+  <span class="chev" aria-hidden="true"></span>
+</button>
+
+  <!-- Kontainer halaman -->
+  <main class="page">
+    <h1 class="sr-only">Demo Tombol Responsif</h1>
+ 
+
+    <!-- Action button + menu -->
+    <div class="action-container" id="actionContainer">
+ 
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="action-menu" id="actionMenu" role="menu" aria-hidden="true">
+        <button role="menuitem" class="sub-btn" data-action="share">Share</button>
+        <button role="menuitem" class="sub-btn" data-action="download">Download</button>
+        <button role="menuitem" class="sub-btn" data-action="settings">Settings</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="profil.js"></script>
+</body>
+</html>
