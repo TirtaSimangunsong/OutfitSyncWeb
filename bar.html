@@ -1,9 +1,12 @@
 <!doctype html>
 <html lang="id">
-<head>
+<!-- Logo utama di tengah atas -->
+<header class="page-header">
+  <img src="images/text-logo.png" alt="Logo" class="main-logo">
+</header>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sidebar Panel dengan Spotlight (Final)</title>
+<title>Sidebar Panel dengan Spotlight (Final) + Centered Profile</title>
 <style>
   :root{
     --bg: #faf6f4;
@@ -14,7 +17,7 @@
 
     /* posisi dan jarak */
     --wrap-left: 20px;
-    --wrap-top: 20px;
+    --wrap-top: 80px;
 
     /* jarak antara kapsul & panel */
     --panel-overlap: -16px;
@@ -22,6 +25,9 @@
     /* ukuran ikon & jarak antar item */
     --spot-size: 62px;
     --gap: 26px;
+
+    /* lebar area sidebar (untuk margin main) */
+    --sidebar-width: 140px;
   }
 
   html,body{
@@ -29,7 +35,27 @@
     margin:0;
     background:var(--bg);
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
+
+/* Logo di tengah atas */
+.page-header{
+  position: fixed;    /* atau pakai absolute kalau mau ngikut scroll */
+  top: 20px;          /* jarak dari atas layar */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 200;       /* lebih tinggi dari konten biasa */
+  width: auto;        /* cukup selebar logonya aja */
+}
+
+.main-logo{
+  width: auto;       /* gunakan ukuran asli file PNG */
+  height: auto;
+  max-width: 100%;   /* mencegah overflow di layar kecil */
+  display: inline-block;
+}
 
   .sidebar-wrap{
     position:fixed;
@@ -38,7 +64,7 @@
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    z-index:80;
+    z-index:100;
   }
 
   /* tombol CS */
@@ -55,18 +81,21 @@
     cursor:pointer;
     user-select:none;
     position:relative;
-    z-index:100;
+    z-index:120;
     transition: transform 200ms ease;
   }
   .capsule:active{ transform: translateY(2px) scale(.997); }
 
-  .capsule .chev{
-    width:16px;
-    height:16px;
-    transform-origin:center;
-    transition: transform 240ms ease;
-  }
-  .capsule.open .chev{ transform: rotate(180deg); }
+.capsule .chev{
+  width:16px;
+  height:16px;
+  transform-origin:center;
+  transition: transform 240ms ease;
+  transform: rotate(180deg); /* awal ngadep ke kiri */
+}
+.capsule.open .chev{
+  transform: rotate(90deg); /* pas ditekan muter ke bawah */
+}
 
   /* panel isi logo */
   .panel{
@@ -77,7 +106,7 @@
     padding: 24px 12px;
     margin-top: var(--panel-overlap);
     position:relative;
-    z-index:70;
+    z-index:90;
     transition: transform 320ms cubic-bezier(.2,.9,.2,1), opacity 250ms ease, visibility 0s linear 0s;
     transform-origin: top left;
     opacity:1;
@@ -106,7 +135,7 @@
     padding:8px 0;
   }
 
-  /* spotlight bulat putih kembali */
+  /* spotlight bulat putih */
   .spotlight{
     position:absolute;
     left:50%;
@@ -116,7 +145,7 @@
     border-radius:50%;
     background:#ffffff;
     box-shadow: 0 10px 18px rgba(0,0,0,0.12);
-    transition: 
+    transition:
       top 420ms cubic-bezier(.2,.9,.2,1),
       transform 420ms cubic-bezier(.2,.9,.2,1),
       opacity 250ms ease;
@@ -166,7 +195,257 @@
     pointer-events:none;
   }
 
-  main{ margin-left:140px; padding:28px; }
+  /* ---- MAIN CONTENT: grid dua kolom (profil kiri, detail kanan) ---- */
+  main{
+    margin-left: var(--sidebar-width);
+    padding:28px;
+    min-height:100vh;
+    box-sizing:border-box;
+
+    display: grid;
+    grid-template-columns: 1fr 360px; /* kiri fleksibel, kanan panel tetap 360px */
+    gap:40px;
+    justify-content: center; /* agar kolom berada di tengah area konten */
+    align-items: start;
+  }
+
+  /* profile wrapper (kiri) */
+  .content-inner{
+    width:320px;
+    max-width:92vw;
+    background: transparent;
+    border-radius:0;
+    padding:34px 28px 28px;
+    box-shadow: none;
+    text-align:center;
+    position:relative;
+    box-sizing: border-box;
+    margin: 0 auto; /* pastikan center pada kolom kiri */
+  }
+
+  /* details panel (kanan) */
+  .details-panel{
+    width:100%;
+    max-width:360px;
+    background:#fdeff0;           /* lembut pink */
+    border-radius:10px;
+    padding:14px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    box-sizing:border-box;
+  }
+
+  .details-panel h3{
+    margin:8px 6px 14px;
+    font-size:16px;
+    color:#3b3b3b;
+  }
+
+  .detail-item{
+    background: transparent;
+    padding:14px 10px;
+    border-bottom:1px solid rgba(0,0,0,0.06);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .detail-item:last-child{ border-bottom:none; }
+
+  .detail-item .label{
+    font-size:13px;
+    color:#6b6b6b;
+  }
+  .detail-item .value{
+    font-weight:600;
+    color:#111;
+    font-size:14px;
+  }
+
+  .details-panel .edit-small{
+    display:inline-block;
+    margin-top:14px;
+    padding:8px 12px;
+    border-radius:10px;
+    background:#fff;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    color:#2d6cdf;
+    text-decoration:none;
+    font-weight:600;
+  }
+
+  .avatar-wrap{
+    position:relative;
+    width:140px;
+    height:140px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    overflow:hidden;
+    background:linear-gradient(180deg, #fff, #fbfbfb);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .avatar-wrap img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .badge{
+    position:absolute;
+    right:-8px;
+    top:-8px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#ffc1c1,#ff8a8a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  }
+  .badge img{ width:22px; height:22px; object-fit:contain; }
+
+  h2{
+    margin:6px 0 6px;
+    font-size:18px;
+    letter-spacing:0.2px;
+  }
+  .location{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    justify-content:center;
+    color:#8a8a8a;
+    font-size:14px;
+    margin-bottom:20px;
+  }
+  .btn{
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:28px;
+    background:#fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  /* responsive: switch to single column on narrow screens */
+  @media (max-width: 900px){
+    main{
+      grid-template-columns: 1fr; /* satu kolom */
+      justify-items:center;
+      gap:20px;
+      padding-top: 120px; /* beri jarak jika header fixed */
+    }
+    .details-panel{ max-width:92vw; width:90%; }
+    .content-inner{ width:320px; }
+  }
+
+  /* jaga jarak header fixed di very small screens */
+  @media (max-width:560px){
+    main{ padding-top: 110px; }
+    .avatar-wrap{ width:120px; height:120px; }
+    .content-inner{ padding:24px; width:90%; }
+  }
+
+  /* ------- Responsive: shrink sidebar dan ikon di ponsel ------- */
+  /* ukuran menengah ponsel */
+  @media (max-width: 420px) {
+    :root{
+      --spot-size: 48px;  /* ukuran bulat ikon */
+      --gap: 18px;        /* jarak antar ikon */
+      --sidebar-width: 92px; /* untuk margin main */
+    }
+
+    .panel{
+      width: 68px;             /* panel lebih sempit */
+      padding: 18px 8px;
+      border-radius:16px;
+    }
+
+    .items{ gap: var(--gap); padding:6px 0; }
+
+    .item{ width:var(--spot-size); height:var(--spot-size); }
+    .item img{ width:28px; height:28px; } /* ikon ikut mengecil */
+
+    .spotlight{ width:calc(var(--spot-size) - 6px); height:calc(var(--spot-size) - 6px); }
+
+    /* kecilkan tombol kapsul CS */
+    .capsule{ padding:8px 12px; gap:8px; font-size:12px; border-radius:16px; }
+    .capsule img{ height:20px; }
+
+    /* jika kamu memindahkan main dengan transform, sesuaikan */
+    main{ margin-left: var(--sidebar-width); }
+  }
+
+  /* layar sangat kecil / compact (narrow phones) */
+  @media (max-width: 360px) {
+    :root{
+      --spot-size: 42px;
+      --gap: 14px;
+      --sidebar-width: 72px;
+    }
+
+    .panel{ width: 60px; padding:14px 6px; border-radius:14px; }
+    .item img{ width:24px; height:24px; }
+    .spotlight{ width:calc(var(--spot-size) - 8px); height:calc(var(--spot-size) - 8px); }
+
+    .capsule{ padding:6px 10px; font-size:11px; }
+    .capsule img{ height:18px; }
+    main{ margin-left: var(--sidebar-width); }
+  }
+
+
+  /* ===== Quick override fix (tidak merubah struktur HTML/JS) =====
+     Tempel ini di akhir style supaya header tidak menimpa konten
+     dan tata letak grid tetap rapi. */
+  :root {
+    --header-offset: 120px;
+  }
+
+  .page-header{
+    z-index: 220 !important;
+    pointer-events: none; /* biar klik ke tombol di bawah tetap berfungsi */
+  }
+
+  .main-logo{
+    max-width: 220px;
+    height: auto;
+    display: inline-block;
+  }
+
+  main{
+    /* beri ruang atas untuk header, center vertikal kolom */
+    padding-top: calc(var(--header-offset) + 12px) !important;
+    min-height: calc(100vh - var(--header-offset)) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transform: none !important; /* reset kalau ada translateX sebelumnya */
+  }
+
+  .content-inner{
+    transform: none !important;
+    margin-top: 0 !important;
+  }
+
+  .content-inner .avatar-wrap{
+    margin-top: 6px;
+  }
+
+  @media (max-width: 900px){
+    main{
+      padding-top: calc(var(--header-offset) + 18px) !important;
+    }
+  }
+  @media (max-width:560px){
+    main{
+      padding-top: calc(var(--header-offset) + 6px) !important;
+    }
+    .main-logo{ max-width: 160px; }
+  }
 </style>
 </head>
 <body>
@@ -174,9 +453,10 @@
 <div class="sidebar-wrap" id="wrap">
   <!-- tombol CS -->
   <div id="capsule" class="capsule">
-    <img src="assets/cs.png" alt="CS" style="height:26px;">
-    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"></polyline>
+    <img src="images/yup.png" alt="CS" style="height:26px;">
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <!-- panah sederhana (kanan) -->
+      <polyline points="9 6 15 12 9 18"></polyline>
     </svg>
   </div>
 
@@ -186,19 +466,63 @@
       <div id="spotlight" class="spotlight"></div>
 
       <!-- pakai PNG dan arahkan ke file html -->
-      <button class="item" data-target="profil.html"><img src="assets/user.png" alt="User"></button>
-      <button class="item" data-target="random.html"><img src="assets/random.png" alt="Random"></button>
-      <button class="item" data-target="plus.html"><img src="assets/plus.png" alt="Plus"></button>
-      <button class="item" data-target="home.html"><img src="assets/home.png" alt="Home"></button>
-      <button class="item" data-target="hanger.html"><img src="assets/hanger.png" alt="Hanger"></button>
-      <button class="item" data-target="calendar.html"><img src="assets/calendar.png" alt="Calendar"></button>
+      <button class="item" data-target="profil.html"><img src="assets/profile-icon.png" alt="User"></button>
+      <button class="item" data-target="random.html"><img src="assets/shuffle-icon.png" alt="Random"></button>
+      <button class="item" data-target="plus.html"><img src="assets/add-icon.png" alt="Plus"></button>
+      <button class="item" data-target="home.html"><img src="assets/home-icon.png" alt="Home"></button>
+      <button class="item" data-target="hanger.html"><img src="assets/wardrobe-icon.png" alt="Hanger"></button>
+      <button class="item" data-target="calendar.html"><img src="assets/calendar-icon.png" alt="Calendar"></button>
     </div>
   </div>
 </div>
 
 <main>
-  <h1>Final — Spotlight Putih Kembali 🌕</h1>
-  <p>Panel awalnya tertutup, klik CS untuk buka. Spotlight bulat putih akan kembali muncul dan bergerak di belakang logo aktif.</p>
+  <!-- KIRI: Profile (tetap seperti sekarang) -->
+  <div class="content-inner" role="region" aria-label="Profile">
+    <div class="avatar-wrap">
+      <!-- ganti path gambar sesuai foldermu -->
+      <img src="images/avatar.png" alt="Avatar">
+      <div class="badge"><img src="images/badge.png" alt="badge"></div>
+    </div>
+
+    <h2>Clarissa Waldorf</h2>
+    <div class="location" aria-hidden="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      Jakarta
+    </div>
+
+    <a href="edit-profile.html" class="btn">Edit profile</a>
+  </div>
+
+  <!-- KANAN: Details panel -->
+  <aside class="details-panel" aria-label="Detail Profil">
+    <h3>Profile Details</h3>
+
+    <div class="detail-item">
+      <div class="label">Gender:</div>
+      <div class="value">Female</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="label">Birth Date:</div>
+      <div class="value">22/02/2005</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="label">Email:</div>
+      <div class="value">clarissaisHere@gmail.com</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="label">Phone Number:</div>
+      <div class="value">+62-888-2222</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="label">Theme:</div>
+      <div class="value">Pink</div>
+    </div>
+  </aside>
 </main>
 
 <script>
@@ -222,7 +546,8 @@
     const itemRect = item.getBoundingClientRect();
     const containerRect = itemsContainer.getBoundingClientRect();
     const centerY = (itemRect.top - containerRect.top) + (itemRect.height / 2);
-    const newTop = centerY - (SPOT_SIZE / 2);
+    // offset -8 supaya spotlight sedikit naik (sesuai permintaanmu)
+    const newTop = centerY - (SPOT_SIZE / 2) - 8;
 
     if(animate){
       spotlight.style.transition = 'top 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1)';
