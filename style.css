@@ -495,107 +495,7 @@ body {
   opacity: 0.9;
 }
 
-/* ---------- HOME PAGE ---------- */
-.home-page {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  background-color: #f9f6f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.home-page.hidden {
-  display: none;
-}
-
-/* tombol kiri atas (hanya muncul di home page) */
-.home-page .top-left {
-  position: fixed;
-  top: 1.2rem;
-  left: 1.2rem;
-  z-index: 2000;
-}
-
-.logo-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #f3dbdc;
-  padding: 0.5rem 0.8rem;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-}
-
-.logo-btn:hover {
-  transform: scale(1.03);
-}
-
-.logo-small {
-  width: 70px;
-  margin-bottom: 10px;
-  height: auto;
-}
-
-.arrow-icon {
-  width: 10px;
-  height: auto;
-}
-
-.home-title {
-  width: 800px;
-  height: auto;
-  opacity: 0.9;
-  margin-bottom: 2rem;
-}
-
-/* ---------- TOP LEFT BUTTON ---------- */
-.top-left {
-  position: fixed;
-  top: 1.2rem;
-  left: 1.2rem;
-  z-index: 2000;
-}
-
-.logo-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  background-color: #f3dbdc;
-  padding: 0.6rem 0.9rem;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
-}
-
-.logo-btn.active {
-  background-color: #e3b9ba; /* warna saat aktif */
-}
-
-.logo-small {
-  width: 90px;
-  height: auto;
-}
-
-.arrow-icon {
-  width: 12px;
-  height: auto;
-  transition: transform 0.25s ease;
-}
-
-.logo-btn.active .arrow-icon {
-  transform: rotate(180deg);
-}
-/* ---------- TOP LEFT BUTTON ---------- */
+/* ---------- TOP LEFT BUTTON (FINAL CLEAN) ---------- */
 .top-left {
   position: fixed;
   top: 1.2rem;
@@ -617,7 +517,7 @@ body {
 }
 
 .logo-btn.active {
-  background-color: #e3b9ba; /* warna saat aktif */
+  background-color: #e3b9ba;
 }
 
 .logo-small {
@@ -635,7 +535,7 @@ body {
   transform: rotate(180deg);
 }
 
-/* ---------- DROPDOWN MENU (final layout) ---------- */
+/* ---------- DROPDOWN MENU (FINAL CLEAN) ---------- */
 .dropdown-menu {
   position: absolute;
   top: 85px;
