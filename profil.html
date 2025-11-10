@@ -1,99 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sidebar Panel dengan Spotlight (Final) + Centered Profile</title>
-  <link rel="stylesheet" href="profil.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sidebar Panel dengan Spotlight (Final) + Centered Profile</title>
+    <link rel="stylesheet" href="profil.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <img src="images/text-logo.png" alt="Logo" class="main-logo" />
+    </header>
 
-<header class="page-header">
-  <img src="images/text-logo.png" alt="Logo" class="main-logo">
-</header>
+    <!-- Gambar kecil pojok kanan atas -->
+    <img src="assets/nanya.png" alt="Corner Icon" class="corner-icon" />
 
-<!-- Gambar kecil pojok kanan atas -->
-<img src="assets/nanya.png" alt="Corner Icon" class="corner-icon">
+    <header class="page-header">
+      <img src="images/text-logo.png" alt="Logo" class="main-logo" />
+    </header>
 
-<header class="page-header">
-  <img src="images/text-logo.png" alt="Logo" class="main-logo">
-</header>
+    <header class="page-header">
+      <img src="images/text-logo.png" alt="Logo" class="main-logo" />
+    </header>
 
-<header class="page-header">
-  <img src="images/text-logo.png" alt="Logo" class="main-logo">
-</header>
+    <div class="sidebar-wrap" id="wrap">
+      <!-- tombol CS -->
+      <div id="capsule" class="capsule">
+        <img src="images/yup.png" alt="CS" style="height: 26px" />
+        <svg
+          class="chev"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="9 6 15 12 9 18"></polyline>
+        </svg>
+      </div>
 
-<div class="sidebar-wrap" id="wrap">
-  <!-- tombol CS -->
-  <div id="capsule" class="capsule">
-    <img src="images/yup.png" alt="CS" style="height:26px;">
-    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="9 6 15 12 9 18"></polyline>
-    </svg>
-  </div>
+      <!-- panel logo -->
+      <div id="panel" class="panel hidden">
+        <div class="items" id="items">
+          <div id="spotlight" class="spotlight"></div>
 
-  <!-- panel logo -->
-  <div id="panel" class="panel hidden">
-    <div class="items" id="items">
-      <div id="spotlight" class="spotlight"></div>
-
-      <button class="item" data-target="profil.html"><img src="assets/profile-icon.png" alt="User"></button>
-      <button class="item" data-target="random.html"><img src="assets/shuffle-icon.png" alt="Random"></button>
-      <button class="item" data-target="plus.html"><img src="assets/add-icon.png" alt="Plus"></button>
-      <button class="item" data-target="home.html"><img src="assets/home-icon.png" alt="Home"></button>
-      <button class="item" data-target="hanger.html"><img src="assets/wardrobe-icon.png" alt="Hanger"></button>
-      <button class="item" data-target="calendar.html"><img src="assets/calendar-icon.png" alt="Calendar"></button>
-    </div>
-  </div>
-</div>
-
-<main>
-  <div class="content-inner" role="region" aria-label="Profile">
-    <div class="avatar-wrap">
-      <!-- ganti path gambar sesuai foldermu -->
-      <img src="images/avatar.png" alt="Avatar">
-      <div class="badge"><img src="images/yup.png" alt="badge"></div>
-    </div>
-
-    <h2>Clarissa Waldorf</h2>
-    <div class="location">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-      Jakarta
-    </div>
-
-    <a href="./editprl.html" class="btn">Edit profile</a>
-  </div>
-
-  <aside class="details-panel" aria-label="Detail Profil">
-    <h3>Profile Details</h3>
-
-    <div class="detail-item">
-      <div class="label">Gender:</div>
-      <div class="value">Female</div>
+          <button class="item" data-target="profil.html">
+            <img src="assets/profile-icon.png" alt="User" />
+          </button>
+          <button class="item" data-target="random.html">
+            <img src="assets/shuffle-icon.png" alt="Random" />
+          </button>
+          <button class="item" data-target="plus.html">
+            <img src="assets/add-icon.png" alt="Plus" />
+          </button>
+          <button class="item" data-target="home.html">
+            <img src="assets/home-icon.png" alt="Home" />
+          </button>
+          <button class="item" data-target="hanger.html">
+            <img src="assets/wardrobe-icon.png" alt="Hanger" />
+          </button>
+          <button class="item" data-target="calendar.html">
+            <img src="assets/calendar-icon.png" alt="Calendar" />
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="detail-item">
-      <div class="label">Birth Date:</div>
-      <div class="value">22/02/2005</div>
-    </div>
+    <main>
+      <div class="content-inner" role="region" aria-label="Profile">
+        <div class="avatar-wrap">
+          <!-- ganti path gambar sesuai foldermu -->
+          <img src="images/avatar.png" alt="Avatar" />
+          <div class="badge">
+            <img src="images/logo-only.png" alt="badge" />
+          </div>
+        </div>
 
-    <div class="detail-item">
-      <div class="label">Email:</div>
-      <div class="value">clarissaisHere@gmail.com</div>
-    </div>
+        <h2>Clarissa Waldorf</h2>
+        <div class="location">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#8a8a8a"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          Jakarta
+        </div>
 
-    <div class="detail-item">
-      <div class="label">Phone Number:</div>
-      <div class="value">+62-888-2222</div>
-    </div>
+        <a href="./editprl.html" class="btn">Edit profile</a>
+      </div>
 
-    <div class="detail-item">
-      <div class="label">Theme:</div>
-      <div class="value">Pink</div>
-    </div>
-  </aside>
-</main>
+      <aside class="details-panel" aria-label="Detail Profil">
+        <h3>Profile Details</h3>
 
-<script src="profil.js"></script>
-</body>
+        <div class="detail-item">
+          <div class="label">Gender:</div>
+          <div class="value">Female</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="label">Birth Date:</div>
+          <div class="value">22/02/2005</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="label">Email:</div>
+          <div class="value">clarissaisHere@gmail.com</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="label">Phone Number:</div>
+          <div class="value">+62-888-2222</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="label">Theme:</div>
+          <div class="value">Pink</div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="profil.js"></script>
+  </body>
 </html>
