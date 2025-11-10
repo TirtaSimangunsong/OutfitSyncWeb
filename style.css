@@ -586,3 +586,233 @@ body {
   height: 30px;
   object-fit: contain;
 }
+
+/* ---------- HOME PAGE ---------- */
+.home-page {
+  min-height: 100vh;
+  background-color: #f9f6f2;
+  position: relative;
+}
+
+.home-page.hidden {
+  display: none;
+}
+
+.home-page.fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+/* ---------- HOME HEADER ---------- */
+.home-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 1rem;
+  background-color: #f9f6f2;
+}
+
+.home-title {
+  width: 280px;
+  height: auto;
+  opacity: 0.9;
+}
+
+/* ---------- HOME CONTENT ---------- */
+.home-content {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ---------- HOMEPAGE MAIN ---------- */
+.homepage {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem 3rem;
+}
+
+/* ---------- GREETING SECTION ---------- */
+.greeting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #ffd1d2;
+  padding: 1.2rem 1.8rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.profile-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 0.2rem;
+}
+
+.user-info .small {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 400;
+}
+
+/* ---------- DATE BOX ---------- */
+.date-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #ffd1d2;
+  padding: 1.2rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.date span {
+  font-size: 0.95rem;
+  color: #000;
+  font-weight: 400;
+}
+
+.date strong {
+  font-weight: 600;
+}
+
+.temp {
+  font-size: 1rem;
+  color: #000;
+  font-weight: 500;
+}
+
+.calendar-icon {
+  font-size: 1.8rem;
+  background-color: #fff;
+  padding: 0.6rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+/* ---------- SECTIONS ---------- */
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- ITEM CARDS ---------- */
+.item-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.2rem;
+}
+
+.item-card {
+  aspect-ratio: 1;
+  background-color: #f3dbdc;
+  border-radius: 22px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.item-card img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .homepage {
+    padding: 1rem 1.5rem 2rem;
+  }
+
+  .home-title {
+    width: 220px;
+  }
+
+  .greeting {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-info,
+  .date-box {
+    width: 100%;
+  }
+
+  .item-row {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .section h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .user-info {
+    padding: 1rem 1.2rem;
+  }
+
+  .profile-img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .user-info h2 {
+    font-size: 1.3rem;
+  }
+
+  .date-box {
+    padding: 1rem 1.2rem;
+  }
+
+  .home-title {
+    width: 180px;
+  }
+}
