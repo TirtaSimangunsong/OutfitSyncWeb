@@ -1,15 +1,190 @@
+// ===== SCRIPT.JS - Universal Script untuk Semua Page =====
+
+// ----- INJECT TOP LEFT BUTTON -----
+function injectTopLeftButton() {
+  // Cek apakah button sudah ada
+  if (document.querySelector(".top-left")) return;
+
+  const topLeftHTML = `
+    <div class="top-left">
+      <button class="logo-btn" id="menu-btn">
+        <img
+          src="images/logo-small.png"
+          alt="OutfitSync small logo"
+          class="logo-small"
+        />
+        <img src="assets/arrow.png" alt="Arrow icon" class="arrow-icon" />
+      </button>
+
+      <!-- Dropdown Vertical Menu -->
+      <div class="dropdown-menu" id="dropdown-menu">
+        <button id="profile-btn">
+          <img src="assets/profile-icon.png" alt="Profile" />
+        </button>
+        <button id="shuffle-btn">
+          <img src="assets/shuffle-icon.png" alt="Shuffle" />
+        </button>
+        <button id="add-btn">
+          <img src="assets/add-icon.png" alt="Add" />
+        </button>
+        <button id="home-btn">
+          <img src="assets/home-icon.png" alt="Home" />
+        </button>
+        <button id="wardrobe-btn">
+          <img src="assets/wardrobe-icon.png" alt="Wardrobe" />
+        </button>
+        <button id="calendar-btn">
+          <img src="assets/calendar-icon.png" alt="Calendar" />
+        </button>
+      </div>
+    </div>
+  `;
+
+  // Insert at the beginning of body
+  document.body.insertAdjacentHTML("afterbegin", topLeftHTML);
+
+  // Initialize dropdown functionality
+  initDropdown();
+
+  // Initialize navigation
+  initNavigation();
+}
+
+// ----- DROPDOWN FUNCTIONALITY -----
+function initDropdown() {
+  const menuBtn = document.getElementById("menu-btn");
+  const dropdownMenu = document.getElementById("dropdown-menu");
+
+  if (menuBtn && dropdownMenu) {
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("show");
+      menuBtn.classList.toggle("active");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.remove("show");
+        menuBtn.classList.remove("active");
+      }
+    });
+  }
+}
+
+// ----- NAVIGATION FUNCTIONALITY -----
+function initNavigation() {
+  // Profile button
+  const profileBtn = document.getElementById("profile-btn");
+  if (profileBtn) {
+    profileBtn.addEventListener("click", () => {
+      window.location.href = "profile-page.html";
+    });
+  }
+
+  // Shuffle button
+  const shuffleBtn = document.getElementById("shuffle-btn");
+  if (shuffleBtn) {
+    shuffleBtn.addEventListener("click", () => {
+      window.location.href = "shuffle-page.html";
+    });
+  }
+
+  // Add button
+  const addBtn = document.getElementById("add-btn");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      window.location.href = "add-page.html";
+    });
+  }
+
+  // Home button
+  const homeBtn = document.getElementById("home-btn");
+  if (homeBtn) {
+    homeBtn.addEventListener("click", () => {
+      window.location.href = "home-page.html";
+    });
+  }
+
+  // Wardrobe button
+  const wardrobeBtn = document.getElementById("wardrobe-btn");
+  if (wardrobeBtn) {
+    wardrobeBtn.addEventListener("click", () => {
+      window.location.href = "wardrobe-page.html";
+    });
+  }
+
+  // Calendar button
+  const calendarBtn = document.getElementById("calendar-btn");
+  if (calendarBtn) {
+    calendarBtn.addEventListener("click", () => {
+      window.location.href = "calendar-page.html";
+    });
+  }
+}
+
+// ----- AUTO INJECT UNTUK PAGE DENGAN CLASS TERTENTU -----
+document.addEventListener("DOMContentLoaded", () => {
+  // Cek apakah page ini membutuhkan top-left button
+  const needsButton = document.querySelector(
+    ".home-page, .profile-page, .wardrobe-page, .calendar-page, .shuffle-page, .add-page"
+  );
+
+  if (needsButton) {
+    injectTopLeftButton();
+    document.body.style.overflow = "auto";
+  }
+
+  // Update date jika ada element date
+  if (document.querySelector(".date")) {
+    updateDateTime();
+  }
+});
+
+// ----- UPDATE DATE & TIME (untuk homepage) -----
+function updateDateTime() {
+  const dateElement = document.querySelector(".date span");
+  if (dateElement) {
+    const now = new Date();
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const dayName = days[now.getDay()];
+    const month = months[now.getMonth()];
+    const date = now.getDate();
+
+    dateElement.innerHTML = `${dayName} <strong>${month} ${date}</strong> Today`;
+  }
+}
+
+// ========== INDEX.HTML SPECIFIC CODE ==========
+
 // ----- LANDING PAGE FADE -----
 setTimeout(() => {
   const landing = document.getElementById("landing");
   const loginPage = document.getElementById("login-page");
 
-  landing.classList.add("fade-out");
+  if (landing && loginPage) {
+    landing.classList.add("fade-out");
 
-  setTimeout(() => {
-    landing.style.display = "none";
-    loginPage.classList.remove("hidden");
-    loginPage.classList.add("fade-in");
-  }, 1000);
+    setTimeout(() => {
+      landing.style.display = "none";
+      loginPage.classList.remove("hidden");
+      loginPage.classList.add("fade-in");
+    }, 1000);
+  }
 }, 500);
 
 // ----- PAGE SWITCHING -----
@@ -111,8 +286,9 @@ if (doneBtn) {
   });
 }
 
-// ----- LOGIN -> MAIN LANDING -----
+// ----- LOGIN -> MAIN LANDING -> HOME PAGE -----
 const loginForm = document.querySelector(".login-form");
+const mainLanding = document.getElementById("main-landing");
 
 if (loginForm) {
   loginForm.addEventListener("submit", (e) => {
@@ -120,102 +296,13 @@ if (loginForm) {
     loginPage.classList.add("hidden");
     mainLanding.classList.remove("hidden");
     mainLanding.classList.add("fade-in");
-  });
-}
 
-// ----- MAIN LANDING -> HOME PAGE (otomatis) -----
-const mainLanding = document.getElementById("main-landing");
-const homePage = document.getElementById("home-page");
-
-if (mainLanding && homePage) {
-  // Saat main landing muncul, tunggu sebentar lalu pindah ke home
-  const observer = new MutationObserver(() => {
-    if (!mainLanding.classList.contains("hidden")) {
+    // Setelah main landing muncul, tunggu 1.5 detik lalu redirect ke home-page.html
+    setTimeout(() => {
+      mainLanding.classList.add("fade-out");
       setTimeout(() => {
-        mainLanding.classList.add("fade-out");
-        setTimeout(() => {
-          mainLanding.style.display = "none";
-          homePage.classList.remove("hidden");
-          homePage.classList.add("fade-in");
-        }, 1000); // waktu transisi fade-out
-      }, 1500); // waktu tampil sebelum pindah
-    }
-  });
-
-  observer.observe(mainLanding, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-}
-
-// ----- MAIN LANDING ----- //
-const topLeftBtn = document.querySelector(".top-left"); // tombol kiri atas
-
-if (mainLanding && homePage) {
-  // tombol kiri atas tetap tampil (tidak ikut fade)
-  if (topLeftBtn) {
-    topLeftBtn.style.position = "fixed";
-    topLeftBtn.style.top = "1.2rem";
-    topLeftBtn.style.left = "1.2rem";
-    topLeftBtn.style.zIndex = "1000";
-  }
-
-  // jalankan transisi otomatis
-  const observer = new MutationObserver(() => {
-    if (!mainLanding.classList.contains("hidden")) {
-      setTimeout(() => {
-        mainLanding.classList.add("fade-out");
-        setTimeout(() => {
-          mainLanding.style.display = "none";
-          homePage.classList.remove("hidden");
-          homePage.classList.add("fade-in");
-        }, 1000); // waktu fade-out
-      }, 1500); // waktu tampil main landing
-    }
-  });
-
-  observer.observe(mainLanding, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-}
-
-//transisi main landing page -> homepage
-if (mainLanding && homePage) {
-  const observer = new MutationObserver(() => {
-    if (!mainLanding.classList.contains("hidden")) {
-      setTimeout(() => {
-        mainLanding.classList.add("fade-out");
-        setTimeout(() => {
-          mainLanding.style.display = "none";
-          homePage.classList.remove("hidden");
-          homePage.classList.add("fade-in");
-        }, 1000);
-      }, 1500);
-    }
-  });
-
-  observer.observe(mainLanding, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-}
-
-// ----- DROPDOWN BUTTON -----
-const menuBtn = document.getElementById("menu-btn");
-const dropdownMenu = document.getElementById("dropdown-menu");
-
-if (menuBtn && dropdownMenu) {
-  menuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdownMenu.classList.toggle("show");
-    menuBtn.classList.toggle("active");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-      dropdownMenu.classList.remove("show");
-      menuBtn.classList.remove("active");
-    }
+        window.location.href = "home-page.html";
+      }, 1000);
+    }, 1500);
   });
 }
