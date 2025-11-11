@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Update date jika ada element date
   if (document.querySelector(".date")) {
     updateDateTime();
+    updateWeather();
   }
 });
 
@@ -168,6 +169,88 @@ function updateDateTime() {
     dateElement.innerHTML = `${dayName} <strong>${month} ${date}</strong> Today`;
   }
 }
+
+// ----- WEATHER (WeatherAPI.com) -----
+const WEATHER_API_KEY = "810d424ddb294f039a4102022251111";
+const WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json";
+
+function fetchWeather(q) {
+  const url = `${WEATHER_API_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(
+    q
+  )}&aqi=no`;
+
+  return fetch(url).then((res) => {
+    if (!res.ok) {
+      throw new Error("Weather API error");
+    }
+    return res.json();
+  });
+}
+
+function updateWeather() {
+  const weatherElement = document.getElementById("weather");
+  if (!weatherElement) return;
+
+  // If somehow key missing:
+  if (!WEATHER_API_KEY) {
+    weatherElement.textContent = "No API key";
+    return;
+  }
+
+  function renderWeather(data) {
+    try {
+      const temp = Math.round(data.current.temp_c);
+      const conditionText = data.current.condition.text || "";
+      let icon = "☀";
+
+      const lower = conditionText.toLowerCase();
+      if (lower.includes("cloud")) icon = "☁";
+      else if (lower.includes("rain") || lower.includes("drizzle")) icon = "🌧";
+      else if (lower.includes("storm") || lower.includes("thunder")) icon = "⛈";
+      else if (lower.includes("snow") || lower.includes("sleet")) icon = "❄";
+      else if (
+        lower.includes("fog") ||
+        lower.includes("mist") ||
+        lower.includes("haze") ||
+        lower.includes("smoke")
+      )
+        icon = "🌫";
+
+      weatherElement.textContent = `${temp}°C ${icon}`;
+    } catch (e) {
+      weatherElement.textContent = "—";
+    }
+  }
+
+  // Prefer geolocation if allowed
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const q = `${pos.coords.latitude},${pos.coords.longitude}`;
+        fetchWeather(q)
+          .then(renderWeather)
+          .catch(() => {
+            // fallback to fixed city (change if you like)
+            fetchWeather("Jakarta")
+              .then(renderWeather)
+              .catch(() => (weatherElement.textContent = "—"));
+          });
+      },
+      () => {
+        // User denied/failed → fallback to fixed city
+        fetchWeather("Jakarta")
+          .then(renderWeather)
+          .catch(() => (weatherElement.textContent = "—"));
+      }
+    );
+  } else {
+    // No geolocation support → fixed city
+    fetchWeather("Jakarta")
+      .then(renderWeather)
+      .catch(() => (weatherElement.textContent = "—"));
+  }
+}
+
 
 // ========== INDEX.HTML SPECIFIC CODE ==========
 
