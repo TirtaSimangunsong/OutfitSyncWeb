@@ -2,8 +2,13 @@
 const appRoot = document.getElementById('app-root');
 const navbarContainer = document.getElementById('navbar-container');
 
+// Variabel untuk melacak CSS halaman yang sedang aktif
+let currentPageStyle = null;
+// Variabel untuk melacak CSS layout (seperti auth)
+let currentLayoutStyle = null;
+
 /**
- * Fungsi serbaguna untuk memuat file HTML ke elemen target.
+ * Memuat file HTML ke elemen target.
  * @param {string} path - Path ke file (misal: 'pages/home.html')
  * @param {HTMLElement} targetElement - Elemen DOM tujuan
  */
@@ -19,33 +24,94 @@ async function loadHtml(path, targetElement) {
 }
 
 /**
+ * Memuat CSS yang persisten (selalu ada, seperti navbar).
+ * @param {string} path - Path ke file CSS
+ */
+function loadPersistentStyle(path) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = path;
+  document.head.appendChild(link);
+}
+
+/**
+ * Memuat CSS khusus untuk layout (misal: layout auth).
+ * @param {string} layoutName - Nama file CSS di folder /pages
+ */
+function loadLayoutStyle(layoutName) {
+  // Hapus layout CSS lama jika ada
+  if (currentLayoutStyle) {
+    currentLayoutStyle.remove();
+  }
+  
+  if (layoutName) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `pages/${layoutName}.css`;
+    document.head.appendChild(link);
+    currentLayoutStyle = link;
+  } else {
+    currentLayoutStyle = null;
+  }
+}
+
+/**
+ * Memuat CSS khusus halaman (dan menghapus yang lama).
+ * @param {string} pageName - Nama file CSS di folder /pages
+ */
+function loadPageStyle(pageName) {
+  // 1. Hapus CSS halaman lama (jika ada)
+  if (currentPageStyle) {
+    currentPageStyle.remove();
+  }
+
+  // 2. Buat <link> baru untuk CSS halaman baru
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `pages/${pageName}.css`;
+  
+  // 3. Tambahkan ke <head>
+  document.head.appendChild(link);
+
+  // 4. Simpan referensinya untuk dihapus nanti
+  currentPageStyle = link;
+}
+
+/**
  * Fungsi untuk memuat "Halaman" ke <main>
  * @param {string} pageName - Nama file di folder /pages (misal: 'home')
  */
 async function loadPage(pageName) {
+  // Tentukan layout berdasarkan halaman
+  const authPages = ['login', 'signup', 'verify'];
+  if (authPages.includes(pageName)) {
+    loadLayoutStyle('auth-layout'); // Muat CSS layout auth
+  } else {
+    loadLayoutStyle(null); // Hapus CSS layout jika bukan halaman auth
+  }
+
+  // 1. Muat dan ganti style CSS halaman
+  loadPageStyle(pageName); 
+
+  // 2. Muat konten HTML
   await loadHtml(`pages/${pageName}.html`, appRoot);
   
-  // LOGIKA PENTING: Sembunyikan navbar jika di halaman auth
-  const authPages = ['login', 'signup', 'landing', 'verify', 'verified'];
-  if (authPages.includes(pageName)) {
-    navbarContainer.style.display = 'none';
+  // 3. Atur visibilitas navbar
+  const pagesWithNavbar = ['home', 'profile', 'wardrobe', 'add-page', 'shuffle'];
+  if (pagesWithNavbar.includes(pageName)) {
+    navbarContainer.style.display = 'flex'; // 'flex' atau 'grid'
   } else {
-    // Gunakan 'flex' atau 'grid' sesuai CSS navbar Anda
-    navbarContainer.style.display = 'flex'; 
+    navbarContainer.style.display = 'none';
   }
   
-  // "Hidupkan" tombol/form di halaman yang baru dimuat
+  // 4. "Hidupkan" tombol/form
   initializePageEvents(pageName);
 }
 
 /**
  * "Menghidupkan" tombol-tombol di dalam navbar
- * Fungsi ini HANYA dipanggil SATU KALI.
  */
 function addNavbarEvents() {
-  // Pastikan ID ini ('nav-home', 'nav-wardrobe') SAMA
-  // dengan ID di file components/bottom-nav.html
-  
   document.getElementById('nav-home').addEventListener('click', (e) => {
     e.preventDefault();
     loadPage('home');
@@ -55,12 +121,12 @@ function addNavbarEvents() {
     e.preventDefault();
     loadPage('wardrobe');
   });
-  
+
   document.getElementById('nav-add').addEventListener('click', (e) => {
     e.preventDefault();
     loadPage('add-page');
   });
-  
+
   document.getElementById('nav-shuffle').addEventListener('click', (e) => {
     e.preventDefault();
     loadPage('shuffle');
@@ -74,16 +140,18 @@ function addNavbarEvents() {
 
 /**
  * "Menghidupkan" tombol/form di dalam HALAMAN (appRoot)
- * Dipanggil setiap kali loadPage() sukses.
  */
 function initializePageEvents(pageName) {
   switch (pageName) {
+    
+    // ### INI YANG HILANG ###
     case 'landing':
       // Otomatis pindah ke login setelah 2 detik
       setTimeout(() => {
         loadPage('login');
-      }, 2000);
+      }, 2000); // 2000 milidetik = 2 detik
       break;
+    // ########################
 
     case 'login':
       const loginForm = document.getElementById('login-form');
@@ -91,19 +159,16 @@ function initializePageEvents(pageName) {
         loginForm.addEventListener('submit', (e) => {
           e.preventDefault();
           console.log('Login disubmit!');
-          //
-          // --- LOGIKA FIREBASE LOGIN ANDA MASUK DI SINI ---
-          //
+          // ... LOGIKA FIREBASE LOGIN ...
           // Jika sukses:
-          // loadPage('home');
+          loadPage('home');
         });
       }
-      
       const signupLink = document.getElementById('nav-to-signup');
       if(signupLink) {
         signupLink.addEventListener('click', (e) => {
           e.preventDefault();
-          loadPage('signup'); // Pindah ke halaman signup
+          loadPage('signup');
         });
       }
       break;
@@ -114,47 +179,40 @@ function initializePageEvents(pageName) {
         signupForm.addEventListener('submit', (e) => {
           e.preventDefault();
           console.log('Signup disubmit!');
-          //
-          // --- LOGIKA FIREBASE SIGNUP ANDA MASUK DI SINI ---
-          //
+          // ... LOGIKA FIREBASE SIGNUP ...
           // Jika sukses:
-          // loadPage('verify');
+          loadPage('verify');
         });
       }
-
       const signinLink = document.getElementById('nav-to-signin');
       if(signinLink) {
         signinLink.addEventListener('click', (e) => {
           e.preventDefault();
-          loadPage('login'); // Kembali ke login
+          loadPage('login');
         });
       }
       break;
-      
+
     case 'home':
-      // Logika untuk halaman home (jika ada)
-      break;
-    
-    case 'profile':
-      // Logika untuk halaman profile (misal tombol logout)
+      // Jika ada logika untuk home (misal tombol dropdown) bisa ditambahkan di sini
       break;
   }
 }
 
 // --- TITIK MULAI APLIKASI ---
-/**
- * Fungsi utama untuk menjalankan aplikasi saat pertama kali dibuka
- */
 async function initializeApp() {
-  // 1. Muat komponen navbar
+  // 1. Muat HTML komponen navbar
   await loadHtml('components/bottom-nav.html', navbarContainer);
   
-  // 2. "Hidupkan" tombol-tombol navbar
+  // 2. Muat CSS komponen navbar (buat file 'components/bottom-nav.css')
+  loadPersistentStyle('components/bottom-nav.css');
+
+  // 3. "Hidupkan" tombol-tombol navbar
   addNavbarEvents();
 
-  // 3. Cek status login Firebase (akan kita bahas nanti)
-  // Untuk sekarang, kita mulai dari 'landing'
-  loadPage('landing'); 
+  // 4. Muat halaman awal (landing)
+  // onAuthStateChanged akan menggantikan ini nanti
+  loadPage('landing');
 }
 
 // Jalankan aplikasi!

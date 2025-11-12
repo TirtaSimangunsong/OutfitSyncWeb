@@ -1,0 +1,68 @@
+.verify-page .right {
+  /* ... style khusus jika ada ... */
+}
+
+.verify-page h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.verify-text {
+  color: #777;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  max-width: 350px;
+  margin-bottom: 2rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.email-text {
+  color: #a67a7a;
+  font-weight: 500;
+}
+
+/* Code input boxes */
+.code-inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  max-width: 360px;
+}
+
+.code-inputs input {
+  width: 48px;
+  height: 56px;
+  border: 1.5px solid #999;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.code-inputs input:focus {
+  border-color: #ffc0cb;
+  box-shadow: 0 0 10px rgba(255, 192, 203, 0.4);
+}
+
+/* Resend text */
+.resend-text {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 1.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 340px;
+}
+
+.resend-text a {
+  color: #000;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* ... (salin media queries Anda ke sini) ... */
