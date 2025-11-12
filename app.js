@@ -1,16 +1,14 @@
 // --- Ambil "Slot" dari index.html ---
 const appRoot = document.getElementById('app-root');
-const navbarContainer = document.getElementById('navbar-container');
+const sidebarContainer = document.getElementById('sidebar-container');
 
-// Variabel untuk melacak CSS halaman yang sedang aktif
+// Variabel untuk melacak CSS & JS
 let currentPageStyle = null;
-// Variabel untuk melacak CSS layout (seperti auth)
 let currentLayoutStyle = null;
+let currentPageScript = null; // Untuk melacak script halaman
 
 /**
  * Memuat file HTML ke elemen target.
- * @param {string} path - Path ke file (misal: 'pages/home.html')
- * @param {HTMLElement} targetElement - Elemen DOM tujuan
  */
 async function loadHtml(path, targetElement) {
   try {
@@ -24,8 +22,34 @@ async function loadHtml(path, targetElement) {
 }
 
 /**
- * Memuat CSS yang persisten (selalu ada, seperti navbar).
- * @param {string} path - Path ke file CSS
+ * Memuat file SCRIPT (JS) secara dinamis
+ */
+function loadScript(path) {
+  // Hapus script halaman lama jika ada
+  if (currentPageScript) {
+    currentPageScript.remove();
+  }
+  
+  const script = document.createElement('script');
+  script.src = path;
+  script.type = 'module';
+  script.id = 'page-script'; // Beri ID untuk dihapus nanti
+  document.body.appendChild(script);
+  currentPageScript = script;
+}
+
+/**
+ * Menghapus script halaman
+ */
+function removePageScript() {
+  if (currentPageScript) {
+    currentPageScript.remove();
+    currentPageScript = null;
+  }
+}
+
+/**
+ * Memuat CSS yang persisten (selalu ada).
  */
 function loadPersistentStyle(path) {
   const link = document.createElement('link');
@@ -36,14 +60,11 @@ function loadPersistentStyle(path) {
 
 /**
  * Memuat CSS khusus untuk layout (misal: layout auth).
- * @param {string} layoutName - Nama file CSS di folder /pages
  */
 function loadLayoutStyle(layoutName) {
-  // Hapus layout CSS lama jika ada
   if (currentLayoutStyle) {
     currentLayoutStyle.remove();
   }
-  
   if (layoutName) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -57,37 +78,34 @@ function loadLayoutStyle(layoutName) {
 
 /**
  * Memuat CSS khusus halaman (dan menghapus yang lama).
- * @param {string} pageName - Nama file CSS di folder /pages
  */
 function loadPageStyle(pageName) {
-  // 1. Hapus CSS halaman lama (jika ada)
   if (currentPageStyle) {
     currentPageStyle.remove();
   }
-
-  // 2. Buat <link> baru untuk CSS halaman baru
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = `pages/${pageName}.css`;
-  
-  // 3. Tambahkan ke <head>
   document.head.appendChild(link);
-
-  // 4. Simpan referensinya untuk dihapus nanti
   currentPageStyle = link;
 }
 
 /**
  * Fungsi untuk memuat "Halaman" ke <main>
- * @param {string} pageName - Nama file di folder /pages (misal: 'home')
  */
-async function loadPage(pageName) {
+// Deklarasikan di scope global agar bisa dipanggil dari event
+window.loadPage = async (pageName) => {
+  // Hapus script halaman lama sebelum memuat yang baru
+  removePageScript(); 
+
   // Tentukan layout berdasarkan halaman
   const authPages = ['login', 'signup', 'verify'];
   if (authPages.includes(pageName)) {
-    loadLayoutStyle('auth-layout'); // Muat CSS layout auth
+    loadLayoutStyle('auth-layout');
+    sidebarContainer.style.display = 'none'; // Sembunyikan sidebar
   } else {
-    loadLayoutStyle(null); // Hapus CSS layout jika bukan halaman auth
+    loadLayoutStyle(null);
+    sidebarContainer.style.display = 'block'; // Tampilkan sidebar
   }
 
   // 1. Muat dan ganti style CSS halaman
@@ -96,62 +114,20 @@ async function loadPage(pageName) {
   // 2. Muat konten HTML
   await loadHtml(`pages/${pageName}.html`, appRoot);
   
-  // 3. Atur visibilitas navbar
-  const pagesWithNavbar = ['home', 'profile', 'wardrobe', 'add-page', 'shuffle'];
-  if (pagesWithNavbar.includes(pageName)) {
-    navbarContainer.style.display = 'flex'; // 'flex' atau 'grid'
-  } else {
-    navbarContainer.style.display = 'none';
-  }
-  
-  // 4. "Hidupkan" tombol/form
+  // 3. "Hidupkan" tombol/form
   initializePageEvents(pageName);
 }
 
 /**
- * "Menghidupkan" tombol-tombol di dalam navbar
- */
-function addNavbarEvents() {
-  document.getElementById('nav-home').addEventListener('click', (e) => {
-    e.preventDefault();
-    loadPage('home');
-  });
-  
-  document.getElementById('nav-wardrobe').addEventListener('click', (e) => {
-    e.preventDefault();
-    loadPage('wardrobe');
-  });
-
-  document.getElementById('nav-add').addEventListener('click', (e) => {
-    e.preventDefault();
-    loadPage('add-page');
-  });
-
-  document.getElementById('nav-shuffle').addEventListener('click', (e) => {
-    e.preventDefault();
-    loadPage('shuffle');
-  });
-
-  document.getElementById('nav-profile').addEventListener('click', (e) => {
-    e.preventDefault();
-    loadPage('profile');
-  });
-}
-
-/**
- * "Menghidupkan" tombol/form di dalam HALAMAN (appRoot)
+ * "Menghidupkan" event listener untuk halaman yang baru dimuat
  */
 function initializePageEvents(pageName) {
   switch (pageName) {
-    
-    // ### INI YANG HILANG ###
     case 'landing':
-      // Otomatis pindah ke login setelah 2 detik
       setTimeout(() => {
-        loadPage('login');
-      }, 2000); // 2000 milidetik = 2 detik
+        window.loadPage('login');
+      }, 2000);
       break;
-    // ########################
 
     case 'login':
       const loginForm = document.getElementById('login-form');
@@ -160,15 +136,14 @@ function initializePageEvents(pageName) {
           e.preventDefault();
           console.log('Login disubmit!');
           // ... LOGIKA FIREBASE LOGIN ...
-          // Jika sukses:
-          loadPage('home');
+          window.loadPage('home'); // Ganti ke home
         });
       }
       const signupLink = document.getElementById('nav-to-signup');
       if(signupLink) {
         signupLink.addEventListener('click', (e) => {
           e.preventDefault();
-          loadPage('signup');
+          window.loadPage('signup');
         });
       }
       break;
@@ -180,39 +155,72 @@ function initializePageEvents(pageName) {
           e.preventDefault();
           console.log('Signup disubmit!');
           // ... LOGIKA FIREBASE SIGNUP ...
-          // Jika sukses:
-          loadPage('verify');
+          // window.loadPage('verify');
         });
       }
       const signinLink = document.getElementById('nav-to-signin');
       if(signinLink) {
         signinLink.addEventListener('click', (e) => {
           e.preventDefault();
-          loadPage('login');
+          window.loadPage('login');
+        });
+      }
+      break;
+    
+    case 'profile':
+      // Menghubungkan tombol "Edit Profile" ke halaman edit
+      const editBtn = document.getElementById('nav-to-edit-profile');
+      if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.loadPage('edit-profile'); // Memuat halaman edit
+        });
+      }
+      break;
+    
+    case 'edit-profile':
+      // Halaman edit-profile memiliki JS sendiri
+      // Kita perlu memuat script-nya secara manual
+      loadScript('pages/edit-profile.js');
+
+      // Tambahkan listener untuk tombol "Kembali"
+      const backBtn = document.getElementById('nav-to-profile');
+      if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.loadPage('profile'); // Kembali ke profile
         });
       }
       break;
 
     case 'home':
-      // Jika ada logika untuk home (misal tombol dropdown) bisa ditambahkan di sini
+      // ... (Event listener untuk home) ...
       break;
   }
 }
 
 // --- TITIK MULAI APLIKASI ---
 async function initializeApp() {
-  // 1. Muat HTML komponen navbar
-  await loadHtml('components/bottom-nav.html', navbarContainer);
+  // 1. Muat HTML komponen sidebar
+  await loadHtml('components/sidebar.html', sidebarContainer);
   
-  // 2. Muat CSS komponen navbar (buat file 'components/bottom-nav.css')
-  loadPersistentStyle('components/bottom-nav.css');
+  // 2. Muat CSS komponen sidebar
+  loadPersistentStyle('components/sidebar.css');
 
-  // 3. "Hidupkan" tombol-tombol navbar
-  addNavbarEvents();
+  // 3. Muat JS komponen sidebar
+  loadScript('components/sidebar.js'); // Menggunakan loadScript
 
-  // 4. Muat halaman awal (landing)
-  // onAuthStateChanged akan menggantikan ini nanti
-  loadPage('landing');
+  // 4. Tambahkan listener global untuk navigasi dari sidebar
+  window.addEventListener('navigate', (event) => {
+    const pageName = event.detail.page;
+    if (pageName) {
+      window.loadPage(pageName);
+    }
+  });
+
+  // 5. Muat halaman awal (landing)
+  // Nanti diganti onAuthStateChanged
+  window.loadPage('landing');
 }
 
 // Jalankan aplikasi!
