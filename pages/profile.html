@@ -1,13 +1,15 @@
 <main class="profile-main">
   <div class="content-inner" role="region" aria-label="Profile">
     <div class="avatar-wrap">
-      <img src="images/avatar.png" alt="Avatar" />
+      <img src="images/avatar.png" alt="Avatar" id="profile-user-avatar" />
+      
       <div class="badge">
         <img src="images/logo-only.png" alt="badge" />
       </div>
     </div>
 
-    <h2>Clarissa Waldorf</h2>
+    <h2 id="profile-user-name">Loading...</h2>
+    
     <div class="location">
       <svg
         width="14"
@@ -30,26 +32,36 @@
 
   <aside class="details-panel" aria-label="Detail Profil">
     <h3>Profile Details</h3>
-
+    
     <div class="detail-item">
       <div class="label">Gender:</div>
-      <div class="value">Female</div>
+      <div class="value" id="profile-user-gender">Loading...</div>
     </div>
+    
     <div class="detail-item">
       <div class="label">Birth Date:</div>
-      <div class="value">22/02/2005</div>
+      <div class="value" id="profile-user-birthdate">Loading...</div>
     </div>
+
     <div class="detail-item">
       <div class="label">Email:</div>
-      <div class="value">clarissaisHere@gmail.com</div>
+      <div class="value" id="profile-user-email">Loading...</div>
     </div>
+    
     <div class="detail-item">
       <div class="label">Phone Number:</div>
-      <div class="value">+62-888-2222</div>
+      <div class="value" id="profile-user-phone">Loading...</div>
     </div>
+
     <div class="detail-item">
       <div class="label">Theme:</div>
       <div class="value">Pink</div>
+    </div>
+
+    <div class="detail-item" style="border:none; margin-top: 20px;">
+      <button id="logout-button" class="btn" style="background: #ffaaaa; color: #a00;">
+        Logout
+      </button>
     </div>
   </aside>
 </main>

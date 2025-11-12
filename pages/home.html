@@ -1,19 +1,18 @@
 <section class="home-page" id="home-page">
   <div class="home-content">
-    <header class="home-header">
-      <img
-        src="images/text-logo.png"
-        alt="OutfitSync Title"
-        class="home-title"
-      />
-    </header>
-
     <main class="homepage">
       <section class="greeting">
         <div class="user-info">
-          <img src="assets/profile.png" alt="profile" class="profile-img" />
+          
+          <img 
+            src="images/profile.png" 
+            alt="profile" 
+            class="profile-img" 
+            id="home-user-avatar" 
+          />
+          
           <div>
-            <h2>Hello, Clarissa!</h2>
+            <h2 id="home-user-name">Hello, Loading...</h2>
             <p class="small">What style are you feeling today?</p>
           </div>
         </div>
@@ -29,50 +28,20 @@
 
       <section class="section">
         <h3>Your top picks</h3>
-        <div class="item-row">
-          <div class="item-card">
-            <img src="assets/shoe1.png" alt="Shoe" />
+        <div class="item-row" id="top-picks-container">
           </div>
-          <div class="item-card">
-            <img src="assets/shirt1.png" alt="Shirt" />
-          </div>
-          <div class_ ="item-card">
-            <img src="assets/glasses1.png" alt="Glasses" />
-          </div>
-          <div class="item-card">
-            <img src="assets/shoe2.png" alt="Shoe" />
-          </div>
-          <div class="item-card">
-            <img src="assets/shirt2.png" alt="Shirt" />
-          </div>
-          <div class="item-card">
-            <img src="assets/glasses2.png" alt="Glasses" />
-          </div>
-        </div>
+        <p id="top-picks-empty" class="empty-list-message" style="display: none;">
+          You have no top picks yet. Like some items to see them here!
+        </p>
       </section>
-
+      
       <section class="section">
         <h3>Recently added items</h3>
-        <div class="item-row">
-          <div class="item-card">
-            <img src="assets/earrings.png" alt="Earrings" />
+        <div class="item-row" id="recently-added-container">
           </div>
-          <div class="item-card">
-            <img src="assets/skirt.png" alt="Skirt" />
-          </div>
-          <div class="item-card">
-            <img src="assets/sweater.png" alt="Sweater" />
-          </div>
-          <div class="item-card">
-            <img src="assets/earrings2.png" alt="Earrings" />
-          </div>
-          <div class="item-card">
-            <img src="assets/skirt2.png" alt="Skirt" />
-          </div>
-          <div class="item-card">
-            <img src="assets/sweater2.png" alt="Sweater" />
-          </div>
-        </div>
+         <p id="recently-added-empty" class="empty-list-message" style="display: none;">
+          Your wardrobe is empty. Add some items!
+        </p>
       </section>
     </main>
   </div>

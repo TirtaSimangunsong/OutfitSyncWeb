@@ -1,15 +1,23 @@
+// --- Impor Service Firebase ---
+import { auth } from './firebase-init.js';
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// Impor fungsi 'loadUserData' dari folder utilitas kita
+import { loadUserData } from './utils/firestore.js';
+
 // --- Ambil "Slot" dari index.html ---
 const appRoot = document.getElementById('app-root');
 const sidebarContainer = document.getElementById('sidebar-container');
 
-// Variabel untuk melacak CSS & JS
+// Variabel Global
 let currentPageStyle = null;
 let currentLayoutStyle = null;
-let currentPageScript = null; // Untuk melacak script halaman
+let currentPageScript = null;
+let currentCleanupFunction = () => {}; 
 
-/**
- * Memuat file HTML ke elemen target.
- */
+// ===============================================
+// FUNGSI LOADER (HTML, CSS, JS)
+// ===============================================
+
 async function loadHtml(path, targetElement) {
   try {
     const response = await fetch(path);
@@ -17,30 +25,20 @@ async function loadHtml(path, targetElement) {
     targetElement.innerHTML = await response.text();
   } catch (error) {
     console.error(`Gagal memuat ${path}:`, error);
-    targetElement.innerHTML = `<p>Error memuat konten.</p>`;
+    targetElement.innerHTML = `<p>Error memuat konten: ${path}</p>`;
   }
 }
 
-/**
- * Memuat file SCRIPT (JS) secara dinamis
- */
-function loadScript(path) {
-  // Hapus script halaman lama jika ada
-  if (currentPageScript) {
-    currentPageScript.remove();
-  }
-  
+function loadScript(path, isModule = true) {
+  if (currentPageScript) currentPageScript.remove();
   const script = document.createElement('script');
   script.src = path;
-  script.type = 'module';
-  script.id = 'page-script'; // Beri ID untuk dihapus nanti
+  if (isModule) script.type = 'module';
+  script.id = 'page-script';
   document.body.appendChild(script);
   currentPageScript = script;
 }
 
-/**
- * Menghapus script halaman
- */
 function removePageScript() {
   if (currentPageScript) {
     currentPageScript.remove();
@@ -48,9 +46,6 @@ function removePageScript() {
   }
 }
 
-/**
- * Memuat CSS yang persisten (selalu ada).
- */
 function loadPersistentStyle(path) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
@@ -58,17 +53,14 @@ function loadPersistentStyle(path) {
   document.head.appendChild(link);
 }
 
-/**
- * Memuat CSS khusus untuk layout (misal: layout auth).
- */
 function loadLayoutStyle(layoutName) {
-  if (currentLayoutStyle) {
-    currentLayoutStyle.remove();
-  }
+  if (currentLayoutStyle) currentLayoutStyle.remove();
   if (layoutName) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `pages/${layoutName}.css`;
+    // --- PERUBAHAN DI SINI ---
+    link.href = `page-style/${layoutName}.css`; // Diubah dari 'pages/'
+    // -------------------------
     document.head.appendChild(link);
     currentLayoutStyle = link;
   } else {
@@ -76,141 +68,128 @@ function loadLayoutStyle(layoutName) {
   }
 }
 
-/**
- * Memuat CSS khusus halaman (dan menghapus yang lama).
- */
 function loadPageStyle(pageName) {
-  if (currentPageStyle) {
-    currentPageStyle.remove();
-  }
+  if (currentPageStyle) currentPageStyle.remove();
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = `pages/${pageName}.css`;
+  // --- PERUBAHAN DI SINI ---
+  link.href = `page-style/${pageName}.css`; // Diubah dari 'pages/'
+  // -------------------------
   document.head.appendChild(link);
   currentPageStyle = link;
 }
 
-/**
- * Fungsi untuk memuat "Halaman" ke <main>
- */
-// Deklarasikan di scope global agar bisa dipanggil dari event
+// ===============================================
+// FUNGSI INTI APLIKASI
+// ===============================================
+
 window.loadPage = async (pageName) => {
-  // Hapus script halaman lama sebelum memuat yang baru
+  currentCleanupFunction();
   removePageScript(); 
 
-  // Tentukan layout berdasarkan halaman
-  const authPages = ['login', 'signup', 'verify'];
+  const authPages = ['login', 'signup', 'verify', 'verified'];
   if (authPages.includes(pageName)) {
     loadLayoutStyle('auth-layout');
-    sidebarContainer.style.display = 'none'; // Sembunyikan sidebar
+    sidebarContainer.style.display = 'none';
   } else {
     loadLayoutStyle(null);
-    sidebarContainer.style.display = 'block'; // Tampilkan sidebar
+    sidebarContainer.style.display = 'block';
   }
-
-  // 1. Muat dan ganti style CSS halaman
   loadPageStyle(pageName); 
-
-  // 2. Muat konten HTML
+  
   await loadHtml(`pages/${pageName}.html`, appRoot);
   
-  // 3. "Hidupkan" tombol/form
+  const pagesNeedingData = ['home', 'profile'];
+  if (pagesNeedingData.includes(pageName)) {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      await loadUserData(currentUser);
+    }
+  }
+
   initializePageEvents(pageName);
 }
 
-/**
- * "Menghidupkan" event listener untuk halaman yang baru dimuat
- */
-function initializePageEvents(pageName) {
-  switch (pageName) {
-    case 'landing':
-      setTimeout(() => {
-        window.loadPage('login');
-      }, 2000);
-      break;
+async function initializePageEvents(pageName) {
+  try {
+    switch (pageName) {
+      case 'landing':
+        setTimeout(() => { window.loadPage('login'); }, 2000);
+        currentCleanupFunction = () => {};
+        break;
 
-    case 'login':
-      const loginForm = document.getElementById('login-form');
-      if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          console.log('Login disubmit!');
-          // ... LOGIKA FIREBASE LOGIN ...
-          window.loadPage('home'); // Ganti ke home
-        });
-      }
-      const signupLink = document.getElementById('nav-to-signup');
-      if(signupLink) {
-        signupLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.loadPage('signup');
-        });
-      }
-      break;
+      case 'login':
+        const loginModule = await import('./page-logic/logic-login.js');
+        loginModule.initLoginPage();
+        currentCleanupFunction = loginModule.cleanupLoginPage;
+        break;
+        
+      case 'signup':
+        const signupModule = await import('./page-logic/logic-signup.js');
+        signupModule.initSignupPage();
+        currentCleanupFunction = signupModule.cleanupSignupPage;
+        break;
+
+      case 'verify':
+        const verifyModule = await import('./page-logic/logic-verify.js');
+        verifyModule.initVerifyPage();
+        currentCleanupFunction = verifyModule.cleanupVerifyPage;
+        break;
+
+      case 'verified':
+        const verifiedModule = await import('./page-logic/logic-verified.js');
+        verifiedModule.initVerifiedPage();
+        currentCleanupFunction = verifiedModule.cleanupVerifiedPage;
+        break;
       
-    case 'signup':
-      const signupForm = document.getElementById('signup-form');
-      if(signupForm) {
-        signupForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          console.log('Signup disubmit!');
-          // ... LOGIKA FIREBASE SIGNUP ...
-          // window.loadPage('verify');
-        });
-      }
-      const signinLink = document.getElementById('nav-to-signin');
-      if(signinLink) {
-        signinLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.loadPage('login');
-        });
-      }
-      break;
-    
-    case 'profile':
-      // Menghubungkan tombol "Edit Profile" ke halaman edit
-      const editBtn = document.getElementById('nav-to-edit-profile');
-      if (editBtn) {
-        editBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.loadPage('edit-profile'); // Memuat halaman edit
-        });
-      }
-      break;
-    
-    case 'edit-profile':
-      // Halaman edit-profile memiliki JS sendiri
-      // Kita perlu memuat script-nya secara manual
-      loadScript('pages/edit-profile.js');
+      case 'home':
+        const homeModule = await import('./page-logic/logic-home.js');
+        homeModule.initHomePage();
+        currentCleanupFunction = homeModule.cleanupHomePage;
+        break;
+      
+      case 'profile':
+        const profileModule = await import('./page-logic/logic-profile.js');
+        profileModule.initProfilePage();
+        currentCleanupFunction = profileModule.cleanupProfilePage;
+        break;
+      
+      case 'edit-profile':
+        const editProfileModule = await import('./page-logic/logic-edit-profile.js');
+        editProfileModule.initEditProfilePage();
+        currentCleanupFunction = editProfileModule.cleanupEditProfilePage;
+        break;
+        
+      case 'wardrobe':
+        const wardrobeModule = await import('./page-logic/logic-wardrobe.js');
+        wardrobeModule.initWardrobePage();
+        currentCleanupFunction = wardrobeModule.cleanupWardrobePage;
+        break;
 
-      // Tambahkan listener untuk tombol "Kembali"
-      const backBtn = document.getElementById('nav-to-profile');
-      if (backBtn) {
-        backBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.loadPage('profile'); // Kembali ke profile
-        });
-      }
-      break;
-
-    case 'home':
-      // ... (Event listener untuk home) ...
-      break;
+      case 'shuffle':
+        const shuffleModule = await import('./page-logic/logic-shuffle.js');
+        shuffleModule.initShufflePage();
+        currentCleanupFunction = shuffleModule.cleanupShufflePage;
+        break;
+      
+      default:
+        currentCleanupFunction = () => {};
+    }
+  } catch (error) {
+    console.error(`Gagal mengimpor atau menjalankan modul untuk ${pageName}:`, error);
   }
 }
 
-// --- TITIK MULAI APLIKASI ---
+// --- TITIK MULAI APLIKASI (GATEKEEPER) ---
 async function initializeApp() {
-  // 1. Muat HTML komponen sidebar
   await loadHtml('components/sidebar.html', sidebarContainer);
   
-  // 2. Muat CSS komponen sidebar
-  loadPersistentStyle('components/sidebar.css');
+  // --- PERUBAHAN DI SINI ---
+  loadPersistentStyle('page-style/sidebar.css'); // Diubah dari 'components/'
+  // -------------------------
 
-  // 3. Muat JS komponen sidebar
-  loadScript('components/sidebar.js'); // Menggunakan loadScript
+  loadScript('components/sidebar.js'); 
 
-  // 4. Tambahkan listener global untuk navigasi dari sidebar
   window.addEventListener('navigate', (event) => {
     const pageName = event.detail.page;
     if (pageName) {
@@ -218,9 +197,38 @@ async function initializeApp() {
     }
   });
 
-  // 5. Muat halaman awal (landing)
-  // Nanti diganti onAuthStateChanged
-  window.loadPage('landing');
+  onAuthStateChanged(auth, async (user) => {
+    currentCleanupFunction(); 
+
+    if (user) {
+      await user.reload(); 
+      if (user.emailVerified) {
+        console.log('User verified and logged in:', user.uid);
+        const currentPage = appRoot.firstChild?.id;
+        const authPages = ['login-page', 'signup-page', 'verify-page', 'verified-page', 'landing'];
+        
+        if (!currentPage || authPages.includes(currentPage)) {
+          await window.loadPage('home'); 
+        } else {
+          const simplePageName = currentPage.replace('-page', '');
+          await window.loadPage(simplePageName);
+        }
+      } else {
+        console.log('User logged in but NOT verified:', user.uid);
+        const currentPage = appRoot.firstChild?.id;
+        if (currentPage !== 'verify-page') {
+          window.loadPage('verify');
+        } else {
+          const verifyEmailText = document.getElementById('verify-email-text');
+          if (verifyEmailText && user) verifyEmailText.textContent = user.email;
+        }
+      }
+    } else {
+      console.log('User logged out');
+      window.loadPage('landing');
+      sidebarContainer.style.display = 'none';
+    }
+  });
 }
 
 // Jalankan aplikasi!
