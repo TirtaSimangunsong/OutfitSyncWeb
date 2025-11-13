@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (document.querySelector(".date")) {
     updateDateTime();
-    updateWeather();
   }
 });
 
@@ -102,6 +101,7 @@ function updateDateTime() {
   }
 }
 
+<<<<<<< HEAD
 // ----- WEATHER (KODE ANDA - SUDAH BENAR) -----
 const WEATHER_API_KEY = "810d424ddb294f039a4102022251111"; // Ganti jika perlu
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json";
@@ -157,6 +157,56 @@ function updateWeather() {
 const landingPage = document.getElementById('landing');
 const loginPage = document.getElementById('login-page');
 const signupPage = document.getElementById('signup-page');
+=======
+// ========== INDEX.HTML SPECIFIC CODE ==========
+
+// ----- LANDING PAGE FADE -----
+setTimeout(() => {
+  const landing = document.getElementById("landing");
+  const loginPage = document.getElementById("login-page");
+
+  if (landing && loginPage) {
+    landing.classList.add("fade-out");
+
+    setTimeout(() => {
+      landing.style.display = "none";
+      loginPage.classList.remove("hidden");
+      loginPage.classList.add("fade-in");
+    }, 1000);
+  }
+}, 500);
+
+// ----- PAGE SWITCHING -----
+const loginPage = document.getElementById("login-page");
+const signupPage = document.getElementById("signup-page");
+
+// tombol/link "Sign up" di login page
+const signUpLink = document.querySelector(".login-page .signup-text a");
+
+// tombol/link "Sign in" di signup page
+const signInLink = document.getElementById("signin-link");
+
+if (signUpLink) {
+  signUpLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    loginPage.classList.add("hidden");
+    signupPage.classList.remove("hidden");
+    signupPage.classList.add("fade-in");
+  });
+}
+
+if (signInLink) {
+  signInLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    signupPage.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+    loginPage.classList.add("fade-in");
+  });
+}
+
+// ----- VERIFY EMAIL PAGE -----
+const signupForm = document.querySelector(".signup-form");
+>>>>>>> parent of 4c6ea81 (weather API implementation)
 const verifyPage = document.getElementById("verify-page");
 const verifiedPage = document.getElementById("verified-page");
 const mainLanding = document.getElementById("main-landing");
