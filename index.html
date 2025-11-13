@@ -1,23 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OutfitSync</title>
-  
-  <link rel="stylesheet" href="page-style/main.css" />
-  
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OutfitSync</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Landing Page -->
+    <section class="landing" id="landing">
+      <div class="logo-container">
+        <img src="images/logo.png" alt="OutfitSync Logo" class="logo" />
+      </div>
+    </section>
 
-  <div id="sidebar-container"></div>
-  <main id="app-root"></main>
+    <!-- Login Page -->
+    <section class="login-page hidden" id="login-page">
+      <div class="left">
+        <div class="logo-container">
+          <img src="images/logo.png" alt="OutfitSync Logo" class="logo" />
+        </div>
+      </div>
 
-  <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="app.js"></script>
-</body>
+      <div class="right">
+        <h2>Login</h2>
+        <p class="signup-text">
+          Don't have an account? <a href="#">Sign up</a>
+        </p>
+
+        <form class="login-form">
+          <input type="text" placeholder="Email or phone" required />
+          <input type="password" placeholder="Password" required />
+
+          <div class="divider">
+            <span></span>
+            <p>Or</p>
+            <span></span>
+          </div>
+
+          <button type="button" class="google-btn">
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google icon"
+            />
+          </button>
+
+          <button type="submit" class="btn-main">Login</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Create Account Page -->
+    <section class="signup-page hidden" id="signup-page">
+      <div class="left">
+        <div class="logo-container">
+          <img src="images/logo.png" alt="OutfitSync Logo" class="logo" />
+        </div>
+      </div>
+
+      <div class="right">
+        <h2>Create account</h2>
+        <p class="signup-text">
+          Already have an account? <a href="#" id="signin-link">Sign in</a>
+        </p>
+
+        <form class="signup-form">
+          <input type="text" placeholder="Name" required />
+          <input type="text" placeholder="Email or phone" required />
+          <input type="password" placeholder="Password" required />
+
+          <button type="submit" class="btn-main">Sign up</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Verify Email Page -->
+    <section class="verify-page hidden" id="verify-page">
+      <div class="left">
+        <div class="logo-container">
+          <img src="images/logo.png" alt="OutfitSync Logo" class="logo" />
+        </div>
+      </div>
+
+      <div class="right">
+        <h2>Verify your email</h2>
+        <p class="verify-text">
+          A verification code has been sent to
+          <span class="email-text">xxx@gmail.com</span>
+        </p>
+
+        <div class="code-inputs">
+          <input type="text" maxlength="1" />
+          <input type="text" maxlength="1" />
+          <input type="text" maxlength="1" />
+          <input type="text" maxlength="1" />
+          <input type="text" maxlength="1" />
+          <input type="text" maxlength="1" />
+        </div>
+
+        <button type="submit" class="btn-main">Confirm</button>
+        <p class="resend-text">
+          Didn't receive an email? <a href="#">Resend Code</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Verified Page -->
+    <section class="verified-page hidden" id="verified-page">
+      <div class="left">
+        <div class="logo-container">
+          <img src="images/logo.png" alt="OutfitSync Logo" class="logo" />
+        </div>
+      </div>
+
+      <div class="right">
+        <h2>Email Verified</h2>
+        <p class="success-text">Successfully</p>
+        <p class="subtext">Your email has been verified</p>
+
+        <div class="checkmark">
+          <img
+            src="images/check-ring.png"
+            alt="Verification Success"
+            class="check-icon"
+          />
+        </div>
+
+        <button class="btn-main">Done</button>
+      </div>
+    </section>
+
+    <!-- Main Landing Page After Login -->
+    <section class="main-landing hidden" id="main-landing">
+      <div class="center-text">
+        <img
+          src="images/text-logo.png"
+          alt="OutfitSync Text Logo"
+          class="text-logo"
+        />
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
 </html>
