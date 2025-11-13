@@ -1,6 +1,5 @@
 // ===== SCRIPT.JS - Universal Script untuk Semua Page =====
 
-<<<<<<< HEAD
 // 1. Impor service dari file konfigurasi kita
 import { db, auth, storage } from "./firebase-config.js";
 
@@ -20,9 +19,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ----- INJECT TOP LEFT BUTTON (KODE ANDA - SUDAH BENAR) -----
-=======
 // ----- INJECT TOP LEFT BUTTON -----
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
 function injectTopLeftButton() {
   // Cek apakah button sudah ada
   if (document.querySelector(".top-left")) return;
@@ -95,7 +92,6 @@ function initDropdown() {
 
 // ----- NAVIGATION FUNCTIONALITY -----
 function initNavigation() {
-<<<<<<< HEAD
   document
     .getElementById("profile-btn")
     ?.addEventListener(
@@ -129,55 +125,6 @@ function initNavigation() {
       "click",
       () => (window.location.href = "calendar-page.html")
     );
-=======
-  // Profile button
-  const profileBtn = document.getElementById("profile-btn");
-  if (profileBtn) {
-    profileBtn.addEventListener("click", () => {
-      window.location.href = "profile-page.html";
-    });
-  }
-
-  // Shuffle button
-  const shuffleBtn = document.getElementById("shuffle-btn");
-  if (shuffleBtn) {
-    shuffleBtn.addEventListener("click", () => {
-      window.location.href = "shuffle-page.html";
-    });
-  }
-
-  // Add button
-  const addBtn = document.getElementById("add-btn");
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      window.location.href = "add-page.html";
-    });
-  }
-
-  // Home button
-  const homeBtn = document.getElementById("home-btn");
-  if (homeBtn) {
-    homeBtn.addEventListener("click", () => {
-      window.location.href = "home-page.html";
-    });
-  }
-
-  // Wardrobe button
-  const wardrobeBtn = document.getElementById("wardrobe-btn");
-  if (wardrobeBtn) {
-    wardrobeBtn.addEventListener("click", () => {
-      window.location.href = "wardrobe-page.html";
-    });
-  }
-
-  // Calendar button
-  const calendarBtn = document.getElementById("calendar-btn");
-  if (calendarBtn) {
-    calendarBtn.addEventListener("click", () => {
-      window.location.href = "calendar-page.html";
-    });
-  }
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
 }
 
 // ----- AUTO INJECT UNTUK PAGE DENGAN CLASS TERTENTU -----
@@ -218,10 +165,6 @@ function updateDateTime() {
       "Nov",
       "Dec",
     ];
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
     const dayName = days[now.getDay()];
     const month = months[now.getMonth()];
     const date = now.getDate();
@@ -238,10 +181,6 @@ function fetchWeather(q) {
   const url = `${WEATHER_API_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(
     q
   )}&aqi=no`;
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
   return fetch(url).then((res) => {
     if (!res.ok) {
       throw new Error("Weather API error");
@@ -295,7 +234,6 @@ function updateWeather() {
         const q = `${pos.coords.latitude},${pos.coords.longitude}`;
         fetchWeather(q)
           .then(renderWeather)
-<<<<<<< HEAD
           .catch(() =>
             fetchWeather("Jakarta")
               .then(renderWeather)
@@ -303,27 +241,12 @@ function updateWeather() {
           );
       },
       () => {
-=======
-          .catch(() => {
-            // fallback to fixed city (change if you like)
-            fetchWeather("Jakarta")
-              .then(renderWeather)
-              .catch(() => (weatherElement.textContent = "—"));
-          });
-      },
-      () => {
-        // User denied/failed → fallback to fixed city
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
         fetchWeather("Jakarta")
           .then(renderWeather)
           .catch(() => (weatherElement.textContent = "—"));
       }
     );
   } else {
-<<<<<<< HEAD
-=======
-    // No geolocation support → fixed city
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
     fetchWeather("Jakarta")
       .then(renderWeather)
       .catch(() => (weatherElement.textContent = "—"));
@@ -331,7 +254,6 @@ function updateWeather() {
 }
 
 
-<<<<<<< HEAD
 // --- ELEMEN HALAMAN (dari kode Anda) ---
 const landingPage = document.getElementById("landing");
 const loginPage = document.getElementById("login-page");
@@ -339,36 +261,10 @@ const signupPage = document.getElementById("signup-page");
 const verifyPage = document.getElementById("verify-page");
 const verifiedPage = document.getElementById("verified-page");
 const mainLanding = document.getElementById("main-landing");
-=======
-// ========== INDEX.HTML SPECIFIC CODE ==========
-
-// ----- LANDING PAGE FADE -----
-setTimeout(() => {
-  const landing = document.getElementById("landing");
-  const loginPage = document.getElementById("login-page");
-
-  if (landing && loginPage) {
-    landing.classList.add("fade-out");
-
-    setTimeout(() => {
-      landing.style.display = "none";
-      loginPage.classList.remove("hidden");
-      loginPage.classList.add("fade-in");
-    }, 1000);
-  }
-}, 500);
-
-// ----- PAGE SWITCHING -----
-const loginPage = document.getElementById("login-page");
-const signupPage = document.getElementById("signup-page");
-
-// tombol/link "Sign up" di login page
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
 const signUpLink = document.querySelector(".login-page .signup-text a");
 
 // tombol/link "Sign in" di signup page
 const signInLink = document.getElementById("signin-link");
-<<<<<<< HEAD
 // PENTING: Pastikan index.html Anda punya id="login-form" dan id="signup-form"
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
@@ -600,115 +496,4 @@ if (window.location.pathname.includes("home-page.html")) {
       dropdownMenu.appendChild(logoutButton);
     }
   }
-=======
-
-if (signUpLink) {
-  signUpLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    loginPage.classList.add("hidden");
-    signupPage.classList.remove("hidden");
-    signupPage.classList.add("fade-in");
-  });
-}
-
-if (signInLink) {
-  signInLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    signupPage.classList.add("hidden");
-    loginPage.classList.remove("hidden");
-    loginPage.classList.add("fade-in");
-  });
-}
-
-// ----- VERIFY EMAIL PAGE -----
-const signupForm = document.querySelector(".signup-form");
-const verifyPage = document.getElementById("verify-page");
-
-if (signupForm) {
-  signupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    signupPage.classList.add("hidden");
-    verifyPage.classList.remove("hidden");
-    verifyPage.classList.add("fade-in");
-  });
-}
-
-// ----- RESEND CODE FUNCTIONALITY -----
-const resendLink = document.querySelector(".resend-text a");
-
-if (resendLink) {
-  resendLink.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    resendLink.textContent = "Code sent!";
-    resendLink.style.pointerEvents = "none";
-    resendLink.style.color = "#aaa";
-
-    let countdown = 30;
-    const parentText = resendLink.parentElement;
-    const countdownText = document.createElement("span");
-    countdownText.style.marginLeft = "8px";
-    countdownText.style.color = "#777";
-    countdownText.textContent = `Please wait ${countdown}s`;
-    parentText.appendChild(countdownText);
-
-    const interval = setInterval(() => {
-      countdown--;
-      countdownText.textContent = `Please wait ${countdown}s`;
-
-      if (countdown <= 0) {
-        clearInterval(interval);
-        countdownText.remove();
-        resendLink.textContent = "Resend Code";
-        resendLink.style.pointerEvents = "auto";
-        resendLink.style.color = "#000";
-      }
-    }, 1000);
-  });
-}
-
-// ----- VERIFIED PAGE SWITCH -----
-const confirmBtn = document.querySelector(".verify-page .btn-main");
-const verifiedPage = document.getElementById("verified-page");
-
-if (confirmBtn) {
-  confirmBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    verifyPage.classList.add("hidden");
-    verifiedPage.classList.remove("hidden");
-    verifiedPage.classList.add("fade-in");
-  });
-}
-
-// ----- DONE BUTTON (kembali ke login) -----
-const doneBtn = document.querySelector(".verified-page .btn-main");
-
-if (doneBtn) {
-  doneBtn.addEventListener("click", () => {
-    verifiedPage.classList.add("hidden");
-    loginPage.classList.remove("hidden");
-    loginPage.classList.add("fade-in");
-  });
-}
-
-// ----- LOGIN -> MAIN LANDING -> HOME PAGE -----
-const loginForm = document.querySelector(".login-form");
-const mainLanding = document.getElementById("main-landing");
-
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    loginPage.classList.add("hidden");
-    mainLanding.classList.remove("hidden");
-    mainLanding.classList.add("fade-in");
-
-    // Setelah main landing muncul, tunggu 1.5 detik lalu redirect ke home-page.html
-    setTimeout(() => {
-      mainLanding.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "home-page.html";
-      }, 1000);
-    }, 1500);
-  });
->>>>>>> parent of e2de21e (Merge pull request #2 from SSSalvan/main)
 }
