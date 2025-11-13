@@ -2,23 +2,22 @@
 // ===== SCRIPT.JS - Universal Script untuk Semua Page =====
 
 // 1. Impor service dari file konfigurasi kita
-import { db, auth, storage } from './firebase-config.js';
+import { db, auth, storage } from "./firebase-config.js";
 
 // 2. Impor fungsi-fungsi yang kita butuhkan dari SDK
-import { 
-    onAuthStateChanged, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    signOut,
-    sendEmailVerification
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  sendEmailVerification,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-import { 
-    doc, 
-    getDoc, 
-    setDoc 
+import {
+  doc,
+  getDoc,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 // ----- INJECT TOP LEFT BUTTON (KODE ANDA - SUDAH BENAR) -----
 function injectTopLeftButton() {
@@ -65,12 +64,39 @@ function initDropdown() {
 
 // ----- NAVIGATION FUNCTIONALITY (KODE ANDA - SUDAH BENAR) -----
 function initNavigation() {
-  document.getElementById("profile-btn")?.addEventListener("click", () => window.location.href = "profile-page.html");
-  document.getElementById("shuffle-btn")?.addEventListener("click", () => window.location.href = "shuffle-page.html");
-  document.getElementById("add-btn")?.addEventListener("click", () => window.location.href = "add-page.html");
-  document.getElementById("home-btn")?.addEventListener("click", () => window.location.href = "home-page.html");
-  document.getElementById("wardrobe-btn")?.addEventListener("click", () => window.location.href = "wardrobe-page.html");
-  document.getElementById("calendar-btn")?.addEventListener("click", () => window.location.href = "calendar-page.html");
+  document
+    .getElementById("profile-btn")
+    ?.addEventListener(
+      "click",
+      () => (window.location.href = "profile-page.html")
+    );
+  document
+    .getElementById("shuffle-btn")
+    ?.addEventListener(
+      "click",
+      () => (window.location.href = "shuffle-page.html")
+    );
+  document
+    .getElementById("add-btn")
+    ?.addEventListener("click", () => (window.location.href = "add-page.html"));
+  document
+    .getElementById("home-btn")
+    ?.addEventListener(
+      "click",
+      () => (window.location.href = "home-page.html")
+    );
+  document
+    .getElementById("wardrobe-btn")
+    ?.addEventListener(
+      "click",
+      () => (window.location.href = "wardrobe-page.html")
+    );
+  document
+    .getElementById("calendar-btn")
+    ?.addEventListener(
+      "click",
+      () => (window.location.href = "calendar-page.html")
+    );
 }
 
 // ----- AUTO INJECT & INIT (KODE ANDA - SUDAH BENAR) -----
@@ -93,7 +119,20 @@ function updateDateTime() {
   if (dateElement) {
     const now = new Date();
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const dayName = days[now.getDay()];
     const month = months[now.getMonth()];
     const date = now.getDate();
@@ -101,12 +140,13 @@ function updateDateTime() {
   }
 }
 
-<<<<<<< HEAD
 // ----- WEATHER (KODE ANDA - SUDAH BENAR) -----
 const WEATHER_API_KEY = "810d424ddb294f039a4102022251111"; // Ganti jika perlu
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json";
 function fetchWeather(q) {
-  const url = `${WEATHER_API_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(q)}&aqi=no`;
+  const url = `${WEATHER_API_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(
+    q
+  )}&aqi=no`;
   return fetch(url).then((res) => {
     if (!res.ok) throw new Error("Weather API error");
     return res.json();
@@ -129,7 +169,13 @@ function updateWeather() {
       else if (lower.includes("rain") || lower.includes("drizzle")) icon = "🌧";
       else if (lower.includes("storm") || lower.includes("thunder")) icon = "⛈";
       else if (lower.includes("snow") || lower.includes("sleet")) icon = "❄";
-      else if (lower.includes("fog") || lower.includes("mist") || lower.includes("haze") || lower.includes("smoke")) icon = "🌫";
+      else if (
+        lower.includes("fog") ||
+        lower.includes("mist") ||
+        lower.includes("haze") ||
+        lower.includes("smoke")
+      )
+        icon = "🌫";
       weatherElement.textContent = `${temp}°C ${icon}`;
     } catch (e) {
       weatherElement.textContent = "—";
@@ -139,14 +185,24 @@ function updateWeather() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const q = `${pos.coords.latitude},${pos.coords.longitude}`;
-        fetchWeather(q).then(renderWeather).catch(() => fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—")));
+        fetchWeather(q)
+          .then(renderWeather)
+          .catch(() =>
+            fetchWeather("Jakarta")
+              .then(renderWeather)
+              .catch(() => (weatherElement.textContent = "—"))
+          );
       },
       () => {
-        fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—"));
+        fetchWeather("Jakarta")
+          .then(renderWeather)
+          .catch(() => (weatherElement.textContent = "—"));
       }
     );
   } else {
-    fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—"));
+    fetchWeather("Jakarta")
+      .then(renderWeather)
+      .catch(() => (weatherElement.textContent = "—"));
   }
 }
 
@@ -154,66 +210,16 @@ function updateWeather() {
 // Ini menggantikan bagian '// ========== INDEX.HTML SPECIFIC CODE =========='
 
 // --- ELEMEN HALAMAN (dari kode Anda) ---
-const landingPage = document.getElementById('landing');
-const loginPage = document.getElementById('login-page');
-const signupPage = document.getElementById('signup-page');
-=======
-// ========== INDEX.HTML SPECIFIC CODE ==========
-
-// ----- LANDING PAGE FADE -----
-setTimeout(() => {
-  const landing = document.getElementById("landing");
-  const loginPage = document.getElementById("login-page");
-
-  if (landing && loginPage) {
-    landing.classList.add("fade-out");
-
-    setTimeout(() => {
-      landing.style.display = "none";
-      loginPage.classList.remove("hidden");
-      loginPage.classList.add("fade-in");
-    }, 1000);
-  }
-}, 500);
-
-// ----- PAGE SWITCHING -----
+const landingPage = document.getElementById("landing");
 const loginPage = document.getElementById("login-page");
 const signupPage = document.getElementById("signup-page");
-
-// tombol/link "Sign up" di login page
-const signUpLink = document.querySelector(".login-page .signup-text a");
-
-// tombol/link "Sign in" di signup page
-const signInLink = document.getElementById("signin-link");
-
-if (signUpLink) {
-  signUpLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    loginPage.classList.add("hidden");
-    signupPage.classList.remove("hidden");
-    signupPage.classList.add("fade-in");
-  });
-}
-
-if (signInLink) {
-  signInLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    signupPage.classList.add("hidden");
-    loginPage.classList.remove("hidden");
-    loginPage.classList.add("fade-in");
-  });
-}
-
-// ----- VERIFY EMAIL PAGE -----
-const signupForm = document.querySelector(".signup-form");
->>>>>>> parent of 4c6ea81 (weather API implementation)
 const verifyPage = document.getElementById("verify-page");
 const verifiedPage = document.getElementById("verified-page");
 const mainLanding = document.getElementById("main-landing");
 const signUpLink = document.querySelector(".login-page .signup-text a");
 const signInLink = document.getElementById("signin-link");
 // PENTING: Pastikan index.html Anda punya id="login-form" dan id="signup-form"
-const loginForm = document.getElementById("login-form"); 
+const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
 
 // --- LOGIKA UTAMA: PENGECEKAN STATUS LOGIN ---
@@ -223,29 +229,28 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     // --- PENGGUNA SUDAH LOGIN ---
     console.log("Pengguna login:", user.uid);
-    
+
     if (currentPage.includes("index.html") || currentPage === "/") {
-      if (loginPage) loginPage.classList.add('hidden');
-      if (signupPage) signupPage.classList.add('hidden');
-      if (mainLanding) mainLanding.classList.remove('hidden');
-      
+      if (loginPage) loginPage.classList.add("hidden");
+      if (signupPage) signupPage.classList.add("hidden");
+      if (mainLanding) mainLanding.classList.remove("hidden");
+
       setTimeout(() => {
         console.log("Mengarahkan ke home-page.html...");
-        window.location.href = 'home-page.html';
-      }, 2000); 
+        window.location.href = "home-page.html";
+      }, 2000);
     } else if (currentPage.includes("home-page.html")) {
       // INI ADALAH LOGIKA UNTUK HOME-PAGE.HTML
       fetchUserData(user);
-      setupLogoutButton(); 
+      setupLogoutButton();
     }
-
   } else {
     // --- PENGGUNA TIDAK LOGIN ---
     console.log("Pengguna tidak login.");
 
     if (!currentPage.includes("index.html") && currentPage !== "/") {
       console.log("Mengarahkan ke index.html...");
-      window.location.href = 'index.html';
+      window.location.href = "index.html";
     } else {
       setTimeout(() => {
         if (landingPage) {
@@ -266,171 +271,182 @@ onAuthStateChanged(auth, (user) => {
 // --- FUNGSI-FUNGSI KHUSUS HALAMAN ---
 
 // Cek apakah kita di index.html
-if (window.location.pathname.includes("index.html") || window.location.pathname === "/") {
-    
-    // Navigasi Pindah Halaman Login/Sign Up (dari kode Anda)
-    if (signUpLink) {
-      signUpLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        loginPage.classList.add("hidden");
-        signupPage.classList.remove("hidden");
-        signupPage.classList.add("fade-in");
-      });
-    }
-    if (signInLink) {
-      signInLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        signupPage.classList.add("hidden");
-        loginPage.classList.remove("hidden");
-        loginPage.classList.add("fade-in");
-      });
-    }
+if (
+  window.location.pathname.includes("index.html") ||
+  window.location.pathname === "/"
+) {
+  // Navigasi Pindah Halaman Login/Sign Up (dari kode Anda)
+  if (signUpLink) {
+    signUpLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginPage.classList.add("hidden");
+      signupPage.classList.remove("hidden");
+      signupPage.classList.add("fade-in");
+    });
+  }
+  if (signInLink) {
+    signInLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      signupPage.classList.add("hidden");
+      loginPage.classList.remove("hidden");
+      loginPage.classList.add("fade-in");
+    });
+  }
 
-    // --- FORM LOGIN (FIREBASE-POWERED) ---
-    if (loginForm) {
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        if (!email || !password) return alert("Email dan password harus diisi");
+  // --- FORM LOGIN (FIREBASE-POWERED) ---
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      if (!email || !password) return alert("Email dan password harus diisi");
 
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log("Login berhasil:", userCredential.user);
+        // onAuthStateChanged akan otomatis mengurus redirect
+      } catch (error) {
+        console.error("Error saat login:", error.message);
+        alert("Login gagal: " + error.code);
+      }
+    });
+  }
+
+  // --- FORM SIGN UP (FIREBASE-POWERED) ---
+  if (signupForm) {
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      if (!name || !email || !password)
+        return alert("Nama, email, dan password harus diisi");
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+        console.log("Sign up berhasil:", user);
+
+        // Simpan nama ke Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          name: name,
+          email: email,
+          createdAt: new Date(),
+        });
+        console.log("Data user disimpan ke Firestore");
+
+        await sendEmailVerification(user);
+        alert("Akun dibuat! Silakan cek email Anda untuk verifikasi.");
+
+        if (signupPage) signupPage.classList.add("hidden");
+        if (verifyPage) verifyPage.classList.remove("hidden");
+      } catch (error) {
+        console.error("Error saat sign up:", error.message);
+        alert("Sign up gagal: " + error.code);
+      }
+    });
+  }
+
+  // --- VERIFY & VERIFIED PAGE LOGIC (dari kode Anda) ---
+  const confirmBtn = document.querySelector(".verify-page .btn-main");
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (verifyPage) verifyPage.classList.add("hidden");
+      if (verifiedPage) verifiedPage.classList.remove("hidden");
+    });
+  }
+  const doneBtn = document.querySelector(".verified-page .btn-main");
+  if (doneBtn) {
+    doneBtn.addEventListener("click", () => {
+      if (verifiedPage) verifiedPage.classList.add("hidden");
+      if (loginPage) loginPage.classList.remove("hidden"); // Kembali ke login
+    });
+  }
+
+  // --- RESEND CODE FUNCTIONALITY (dari kode Anda + Firebase) ---
+  const resendLink = document.querySelector(".resend-text a");
+  if (resendLink) {
+    resendLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const user = auth.currentUser;
+      if (user) {
         try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          console.log("Login berhasil:", userCredential.user);
-          // onAuthStateChanged akan otomatis mengurus redirect
-        } catch (error) {
-          console.error("Error saat login:", error.message);
-          alert("Login gagal: " + error.code);
-        }
-      });
-    }
-
-    // --- FORM SIGN UP (FIREBASE-POWERED) ---
-    if (signupForm) {
-      signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('signup-name').value;
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-        if (!name || !email || !password) return alert("Nama, email, dan password harus diisi");
-
-        try {
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          console.log("Sign up berhasil:", user);
-
-          // Simpan nama ke Firestore
-          await setDoc(doc(db, "users", user.uid), {
-            name: name,
-            email: email,
-            createdAt: new Date()
-          });
-          console.log("Data user disimpan ke Firestore");
-          
           await sendEmailVerification(user);
-          alert("Akun dibuat! Silakan cek email Anda untuk verifikasi.");
-
-          if(signupPage) signupPage.classList.add('hidden');
-          if(verifyPage) verifyPage.classList.remove('hidden');
-
+          alert("Email verifikasi baru telah dikirim!");
         } catch (error) {
-          console.error("Error saat sign up:", error.message);
-          alert("Sign up gagal: " + error.code);
+          alert("Gagal mengirim ulang: " + error.message);
         }
-      });
-    }
+      } else {
+        alert("Anda harus sign up terlebih dahulu.");
+      }
 
-    // --- VERIFY & VERIFIED PAGE LOGIC (dari kode Anda) ---
-    const confirmBtn = document.querySelector(".verify-page .btn-main");
-    if (confirmBtn) {
-      confirmBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if(verifyPage) verifyPage.classList.add("hidden");
-        if(verifiedPage) verifiedPage.classList.remove("hidden");
-      });
-    }
-    const doneBtn = document.querySelector(".verified-page .btn-main");
-    if (doneBtn) {
-      doneBtn.addEventListener("click", () => {
-        if(verifiedPage) verifiedPage.classList.add("hidden");
-        if(loginPage) loginPage.classList.remove("hidden"); // Kembali ke login
-      });
-    }
-
-    // --- RESEND CODE FUNCTIONALITY (dari kode Anda + Firebase) ---
-    const resendLink = document.querySelector(".resend-text a");
-    if (resendLink) {
-      resendLink.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const user = auth.currentUser;
-        if (user) {
-          try {
-            await sendEmailVerification(user);
-            alert("Email verifikasi baru telah dikirim!");
-          } catch (error) {
-            alert("Gagal mengirim ulang: " + error.message);
-          }
-        } else {
-          alert("Anda harus sign up terlebih dahulu.");
-        }
-        
-        resendLink.textContent = "Code sent!";
-        resendLink.style.pointerEvents = "none";
-        // ... (sisa logika countdown Anda) ...
-      });
-    }
+      resendLink.textContent = "Code sent!";
+      resendLink.style.pointerEvents = "none";
+      // ... (sisa logika countdown Anda) ...
+    });
+  }
 }
 
 // Cek apakah kita di home-page.html
 if (window.location.pathname.includes("home-page.html")) {
-    
-    // INI ADALAH FUNGSI YANG ANDA TANYAKAN
-    async function fetchUserData(user) {
-        if (!user) return;
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+  // INI ADALAH FUNGSI YANG ANDA TANYAKAN
+  async function fetchUserData(user) {
+    if (!user) return;
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-            console.log("Data user:", userData);
-            
-            const greetingElement = document.querySelector(".greeting .user-info h2");
-            if (greetingElement) {
-                greetingElement.textContent = `Hello, ${userData.name}!`;
-            }
-            
-            const profileImg = document.querySelector(".greeting .user-info .profile-img");
-            if (profileImg && userData.profileImageUrl) {
-                profileImg.src = userData.profileImageUrl;
-            } else if (profileImg) {
-                profileImg.src = 'assets/profile.png'; // Fallback
-            }
-        } else {
-            console.log("Tidak ada data user di Firestore!");
-            const greetingElement = document.querySelector(".greeting .user-info h2");
-            if (greetingElement) {
-                greetingElement.textContent = `Hello, Welcome!`;
-            }
-        }
-    }
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
+      console.log("Data user:", userData);
 
-    // Fungsi untuk menambah tombol logout di dropdown
-    function setupLogoutButton() {
-        const dropdownMenu = document.getElementById("dropdown-menu");
-        if (dropdownMenu && !document.getElementById("logout-btn")) {
-            const logoutButton = document.createElement('button');
-            logoutButton.id = "logout-btn";
-            logoutButton.innerHTML = `<img src="assets/add-icon.png" alt="Logout" style="transform: rotate(45deg); filter: invert(20%);">`; 
-            
-            logoutButton.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    // onAuthStateChanged akan urus redirect ke index.html
-                } catch (error) {
-                    console.error('Error logout:', error);
-                }
-            });
-            dropdownMenu.appendChild(logoutButton);
-        }
+      const greetingElement = document.querySelector(".greeting .user-info h2");
+      if (greetingElement) {
+        greetingElement.textContent = `Hello, ${userData.name}!`;
+      }
+
+      const profileImg = document.querySelector(
+        ".greeting .user-info .profile-img"
+      );
+      if (profileImg && userData.profileImageUrl) {
+        profileImg.src = userData.profileImageUrl;
+      } else if (profileImg) {
+        profileImg.src = "assets/profile.png"; // Fallback
+      }
+    } else {
+      console.log("Tidak ada data user di Firestore!");
+      const greetingElement = document.querySelector(".greeting .user-info h2");
+      if (greetingElement) {
+        greetingElement.textContent = `Hello, Welcome!`;
+      }
     }
+  }
+
+  // Fungsi untuk menambah tombol logout di dropdown
+  function setupLogoutButton() {
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    if (dropdownMenu && !document.getElementById("logout-btn")) {
+      const logoutButton = document.createElement("button");
+      logoutButton.id = "logout-btn";
+      logoutButton.innerHTML = `<img src="assets/add-icon.png" alt="Logout" style="transform: rotate(45deg); filter: invert(20%);">`;
+
+      logoutButton.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+          // onAuthStateChanged akan urus redirect ke index.html
+        } catch (error) {
+          console.error("Error logout:", error);
+        }
+      });
+      dropdownMenu.appendChild(logoutButton);
+    }
+  }
 }
