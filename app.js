@@ -171,7 +171,31 @@ async function initializePageEvents(pageName) {
         shuffleModule.initShufflePage();
         currentCleanupFunction = shuffleModule.cleanupShufflePage;
         break;
-      
+
+      case 'calendar':
+        const calendarModule = await import('./page-logic/logic-calendar.js');
+        calendarModule.initCalendarPage();
+        currentCleanupFunction = calendarModule.cleanupCalendarPage;
+        break;
+
+      case 'create-outfit':
+        const createOutfitModule = await import('./page-logic/logic-create-outfit.js');
+        createOutfitModule.initCreateOutfitPage();
+        currentCleanupFunction = createOutfitModule.cleanupCreateOutfitPage;
+        break;
+
+      case 'outfit-summary':
+        const summaryModule = await import('./page-logic/logic-outfit-summary.js');
+        summaryModule.initOutfitSummaryPage();
+        currentCleanupFunction = summaryModule.cleanupOutfitSummaryPage;
+        break;
+
+      case 'save-calendar':
+        const saveCalendarModule = await import('./page-logic/logic-save-calendar.js');
+        saveCalendarModule.initSaveCalendarPage();
+        currentCleanupFunction = saveCalendarModule.cleanupSaveCalendarPage;
+        break;
+
       default:
         currentCleanupFunction = () => {};
     }

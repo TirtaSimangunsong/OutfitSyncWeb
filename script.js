@@ -84,71 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (document.querySelector(".date")) {
     updateDateTime();
-    updateWeather();
   }
 });
 
-// ----- UPDATE DATE & TIME (KODE ANDA - SUDAH BENAR) -----
-function updateDateTime() {
-  const dateElement = document.querySelector(".date span");
-  if (dateElement) {
-    const now = new Date();
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const dayName = days[now.getDay()];
-    const month = months[now.getMonth()];
-    const date = now.getDate();
-    dateElement.innerHTML = `${dayName} <strong>${month} ${date}</strong> Today`;
-  }
-}
 
-// ----- WEATHER (KODE ANDA - SUDAH BENAR) -----
-const WEATHER_API_KEY = "810d424ddb294f039a4102022251111"; // Ganti jika perlu
-const WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json";
-function fetchWeather(q) {
-  const url = `${WEATHER_API_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(q)}&aqi=no`;
-  return fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Weather API error");
-    return res.json();
-  });
-}
-function updateWeather() {
-  const weatherElement = document.getElementById("weather");
-  if (!weatherElement) return;
-  if (!WEATHER_API_KEY) {
-    weatherElement.textContent = "No API key";
-    return;
-  }
-  function renderWeather(data) {
-    try {
-      const temp = Math.round(data.current.temp_c);
-      const conditionText = data.current.condition.text || "";
-      let icon = "☀";
-      const lower = conditionText.toLowerCase();
-      if (lower.includes("cloud")) icon = "☁";
-      else if (lower.includes("rain") || lower.includes("drizzle")) icon = "🌧";
-      else if (lower.includes("storm") || lower.includes("thunder")) icon = "⛈";
-      else if (lower.includes("snow") || lower.includes("sleet")) icon = "❄";
-      else if (lower.includes("fog") || lower.includes("mist") || lower.includes("haze") || lower.includes("smoke")) icon = "🌫";
-      weatherElement.textContent = `${temp}°C ${icon}`;
-    } catch (e) {
-      weatherElement.textContent = "—";
-    }
-  }
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const q = `${pos.coords.latitude},${pos.coords.longitude}`;
-        fetchWeather(q).then(renderWeather).catch(() => fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—")));
-      },
-      () => {
-        fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—"));
-      }
-    );
-  } else {
-    fetchWeather("Jakarta").then(renderWeather).catch(() => (weatherElement.textContent = "—"));
-  }
-}
 
 // ========== FIREBASE AUTH & LOGIC ==========
 // Ini menggantikan bagian '// ========== INDEX.HTML SPECIFIC CODE =========='

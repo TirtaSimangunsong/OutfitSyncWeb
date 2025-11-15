@@ -1,37 +1,32 @@
+<!-- File: pages/shuffle.html -->
 <section class="shuffle-page" id="shuffle-page">
-  <header class="shuffle-controls">
-    <button id="shuffle-btn-shuffle" class="btn-main">Shuffle Style</button>
-    <button id="shuffle-btn-next" class="btn-main">Next</button>
-  </header>
+  <div class="shuffle-content">
+    <!-- Tops row -->
+    <div class="shuffle-row" data-category="tops">
+      <div class="shuffle-row-inner" id="tops-row"></div>
+    </div>
 
-  <section class="carousel-section">
-    <h4>Accessories</h4>
-    <div class="carousel-row" id="accessories-container"></div>
-    <p id="accessories-empty" class="empty-list-message" style="display: none;">No accessories</p>
-  </section>
+    <!-- Bottoms row -->
+    <div class="shuffle-row" data-category="bottoms">
+      <div class="shuffle-row-inner" id="bottoms-row"></div>
+    </div>
 
-  <section class="carousel-section">
-    <h4>Tops</h4>
-    <div class="carousel-row large" id="tops-container"></div>
-    <p id="tops-empty" class="empty-list-message" style="display: none;">No tops</p>
-  </section>
-  
-  <section class="carousel-section">
-    <h4>Bottoms</h4>
-    <div class="carousel-row large" id="bottoms-container"></div>
-    <p id="bottoms-empty" class="empty-list-message" style="display: none;">No bottoms</p>
-  </section>
+    <!-- Shoes row -->
+    <div class="shuffle-row" data-category="shoes">
+      <div class="shuffle-row-inner" id="shoes-row"></div>
+    </div>
 
-  <section class="carousel-section">
-    <h4>Shoes</h4>
-    <div class="carousel-row" id="shoes-container"></div>
-    <p id="shoes-empty" class="empty-list-message" style="display: none;">No shoes</p>
-  </section>
+    <!-- Bags row -->
+    <div class="shuffle-row" data-category="bags">
+      <div class="shuffle-row-inner" id="bags-row"></div>
+    </div>
+  </div>
 
-  <section class="carousel-section">
-    <h4>Bags</h4>
-    <div class="carousel-row" id="bags-container"></div>
-    <p id="bags-empty" class="empty-list-message" style="display: none;">No bags</p>
-  </section>
+    <!-- Bottom Buttons -->
+    <div class="shuffle-bottom-buttons">
+      <button class="shuffle-create-btn" id="create-outfit-btn">
+        Create Outfit
+      </button>
+    </div>
 
 </section>
