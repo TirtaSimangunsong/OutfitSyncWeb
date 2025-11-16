@@ -22,10 +22,22 @@
   margin-bottom: 20px;
 }
 
-.co-back-btn {
+.backBtn img.back-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  color: #000;
+}
+
+.backBtn {
   background: transparent;
   border: none;
-  font-size: 1.4rem;
+  padding: 0; /* remove spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
@@ -125,13 +137,13 @@
 
 /* Create outfit button */
 .co-create-btn {
-  padding: 1.1rem 2.6rem;
+  padding: 1.7rem 3.6rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 20px;
   background-color: #ffd1d2;
-  font-size: 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35);
   transition: background-color .2s ease;
 }
 
@@ -139,26 +151,35 @@
   background-color: #f3bfc0;
 }
 
-/* Shuffle button */
+/* Make the shuffle button transparent with no border */
 .co-shuffle-btn {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background-color: #ffd1d2;
-  font-size: 1.4rem;
+  background: transparent;
   border: none;
-  cursor: pointer;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  /* keep existing button visuals */
+  width: 54px;
+  height: 54px;
+  background-color: transparent;
   transition: background-color .2s ease;
 }
 
 .co-shuffle-btn:hover {
   background-color: #f3bfc0;
 }
+
+/* NEW: Style the shuffle icon */
+.shuffle-icon {
+  width: 54px;      /* Perfect size inside 54px circle */
+  height: 54px;
+  object-fit: contain;
+  pointer-events: none; /* makes entire button clickable */
+}
+
 
 /* Responsive */
 @media (max-width: 900px) {

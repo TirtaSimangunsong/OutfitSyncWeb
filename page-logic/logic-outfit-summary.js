@@ -114,8 +114,8 @@ export function initOutfitSummaryPage() {
   buildCards(selection);
   buildCollage(selection);
 
-  // back button → return to create-outfit
-  const backBtn = document.getElementById('os-back-btn');
+  // Back button → go to create-outfit page
+  const backBtn = document.querySelector('.backBtn');
   if (backBtn) {
     const handler = () => {
       window.dispatchEvent(
@@ -125,6 +125,7 @@ export function initOutfitSummaryPage() {
     backBtn.addEventListener('click', handler);
     cleanupFns.push(() => backBtn.removeEventListener('click', handler));
   }
+
 
   // Save to calendar → go to date selector page
     const saveCalendarBtn = document.getElementById('os-save-calendar-btn');

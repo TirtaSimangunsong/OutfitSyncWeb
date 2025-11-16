@@ -14,11 +14,11 @@ let cleanupFns = [];
 
 // Time → icon
 const timeIcons = {
-  Morning: "☀️",
-  Noon: "🌤️",
-  Afternoon: "🌆",
-  Night: "🌙",
-  default: "☾"
+  Morning: 'images/morning.png',
+  Noon: 'images/noon.png',
+  Afternoon: 'images/afternoon.png',
+  Night: 'images/night.png',
+  default: 'images/morning.png'
 };
 
 const monthNames = [
@@ -46,7 +46,7 @@ export function initCalendarPage() {
     selectedDate: null
   };
 
-    // Back button → go back to outfit summary
+    // Back button → go back to home
   const backBtn = root.querySelector(".backBtn");
   if (backBtn) {
     const handler = () => {
@@ -138,39 +138,65 @@ export function initCalendarPage() {
         dayNumber = i - firstDayIndex + 1;
       }
 
+      // Day number label
       const label = document.createElement("span");
       label.className = "day-number";
       label.textContent = dayNumber;
-      cell.appendChild(label);
+
+      // Container for [day number + 2×2 grid]
+      const dayContent = document.createElement("div");
+      dayContent.className = "day-content";
+      dayContent.appendChild(label);
+
+      let events = null;
+      let outfit = null;
+      let dateKey = null;
 
       if (inMonth) {
         const yyyy = year;
         const mm = String(month + 1).padStart(2, "0");
         const dd = String(dayNumber).padStart(2, "0");
-        const dateKey = `${yyyy}-${mm}-${dd}`;
+        dateKey = `${yyyy}-${mm}-${dd}`;
         cell.dataset.date = dateKey;
 
-        const events = eventsByDate[dateKey];
+        events = eventsByDate[dateKey];
         if (events && events.length > 0) {
           cell.classList.add("day-with-outfit");
+          outfit = events[0].outfit || {};
+        }
+      }
 
-          // add tiny outfit thumbnail
-          const outfit = events[0].outfit || {};
-          const imgUrl = pickOutfitImage(outfit);
+      // 2×2 mini grid: always present (even if empty)
+      const thumbGrid = document.createElement("div");
+      thumbGrid.className = "day-outfit-grid";
 
-          if (imgUrl) {
-            const img = document.createElement("img");
-            img.className = "day-outfit-img";
-            img.src = imgUrl;
-            cell.appendChild(img);
-          }
+      const order = ["Top", "Bag", "Bottom", "Shoes"];
+
+      order.forEach((cat) => {
+        const slot = document.createElement("div");
+        slot.className = "day-outfit-slot";
+
+        if (outfit && outfit[cat] && outfit[cat].imageUrl) {
+          const img = document.createElement("img");
+          img.src = outfit[cat].imageUrl;
+          img.alt = cat;
+          img.className = "day-outfit-img";
+          slot.appendChild(img);
         }
 
+        thumbGrid.appendChild(slot);
+      });
+
+      dayContent.appendChild(thumbGrid);
+      cell.appendChild(dayContent);
+
+      if (inMonth) {
         cell.addEventListener("click", () => handleDayClick(cell));
       }
 
       grid.appendChild(cell);
     }
+
 
     // Reset right panel
     eventsDateEl.textContent = "Select a date";
@@ -216,14 +242,45 @@ export function initCalendarPage() {
 
     if (events && events.length > 0) {
       const event = events[0];
+
       eventTextEl.textContent = event.occasion || "(No occasion)";
-      eventIconEl.textContent = timeIcons[event.time] || timeIcons["default"];
+
+      eventIconEl.innerHTML = `
+        <img src="${timeIcons[event.time] || timeIcons.default}" 
+            class="calendar-time-icon" />
+      `;
+
       eventItemEl.style.display = "flex";
+      eventItemEl.style.cursor = "pointer";
+
+      // ---- NEW: CLICK TO EDIT OUTFIT ----
+      const goToEdit = () => {
+        if (window.loadPage) {
+          window.loadPage("edit-outfit", { event });
+        } else {
+          window.dispatchEvent(
+            new CustomEvent("navigate", {
+              detail: { page: "edit-outfit", params: { event } }
+            })
+          );
+        }
+      };
+
+      eventItemEl.addEventListener("click", goToEdit);
+
+      cleanupFns.push(() => {
+        eventItemEl.removeEventListener("click", goToEdit);
+      });
+
     } else {
+      // No event = just show blank card
       eventTextEl.textContent = "No event.";
-      eventIconEl.textContent = "☾";
+      eventIconEl.innerHTML = "";
       eventItemEl.style.display = "flex";
+      eventItemEl.style.cursor = "default";
     }
+
+    
   }
 
   // --------------------------

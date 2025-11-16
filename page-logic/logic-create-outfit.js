@@ -163,16 +163,16 @@ export function initCreateOutfitPage() {
 
   loadCreateData(user.uid);
 
-  // Back → shuffle page
-  const back = document.getElementById('co-back-btn');
-  if (back) {
-    const backHandler = () => {
+ // Back → shuffle page
+  const backBtn = document.querySelector('.backBtn');
+  if (backBtn) {
+    const handler = () => {
       window.dispatchEvent(
         new CustomEvent('navigate', { detail: { page: 'shuffle' } })
       );
     };
-    back.addEventListener('click', backHandler);
-    cleanupFns.push(() => back.removeEventListener('click', backHandler));
+    backBtn.addEventListener('click', handler);
+    cleanupFns.push(() => backBtn.removeEventListener('click', handler));
   }
 
   // Shuffle

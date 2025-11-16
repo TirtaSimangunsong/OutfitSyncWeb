@@ -1,50 +1,60 @@
 /* File: page-style/save-calendar.css */
 /* Uses global colors from style.css:
-   beige: #F9F6F2, pink: #FFD1D2, pink light: #F3DBDC
+   beige: #F9F6F2, pink: #FFD1D2, pink light: #FFE4E4
 */
+
+#sidebar-container {
+  display: none !important;
+}
 
 .save-calendar-page {
   min-height: 100vh;
   background-color: #f9f6f2;
-  padding: 40px 60px 120px 180px; /* leave space for sidebar if visible */
+  padding: 40px 60px 120px 180px;
   font-family: "Poppins", sans-serif;
   color: #000;
-}
 
-/* top bar */
-.sc-topbar {
-  position: relative;
+  /* NEW: center the cards vertically */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 32px;
+  flex-direction: column;
 }
 
-.sc-back-btn {
-  position: absolute;
-  left: 0;
-  border: none;
-  background: transparent;
-  font-size: 1.2rem;
-  cursor: pointer;
+.sc-topbar {
+  margin-bottom: 20px;
 }
 
-.sc-title {
-  font-size: 1.7rem;
-  letter-spacing: 0.15em;
-  color: #f3bfc0;
-}
-
-/* layout */
 .sc-main {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
   gap: 3rem;
+
+  /* NEW: let it fill the space and center contents vertically */
+  flex: 1;
+  align-items: center;
+}
+
+.backBtn img.back-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  color: #000;
+}
+
+.backBtn {
+  background: transparent;
+  border: none;
+  padding: 0; /* remove spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* calendar card */
 .sc-calendar-card {
-  background-color: #ffd1d2;
+  background-color: #FFE4E4;
   border-radius: 18px;
   padding: 24px 32px 32px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -71,7 +81,7 @@
 .sc-month-btn {
   border: none;
   background: transparent;
-  font-size: 1.4rem;
+  font-size: 2rem;
   cursor: pointer;
 }
 
@@ -88,13 +98,13 @@
   opacity: 0.8;
 }
 
-/* calendar days grid */
 .sc-calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  row-gap: 14px;
-  column-gap: 6px;
+  row-gap: 25px;         /* more vertical spacing */
+  column-gap: 10px;      /* a bit more horizontal breathing room */
   font-size: 0.85rem;
+  padding: 75px 4px 14px; /* extra top/bottom spacing inside the grid */
 }
 
 .sc-day {
@@ -102,7 +112,7 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px 6px 60px;  /* a bit bigger hitbox */
 }
 
 .sc-day--disabled {
@@ -119,9 +129,10 @@
 }
 
 .sc-day.is-selected {
-  background-color: #f9f6f2;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #f3bfc0;
+  background-color: #ffd1d2;   /* same pink as Save button */
+  border-radius: 10px;         /* rounded square */
+  box-shadow: none;
+  color: #000;
 }
 
 /* right panel */
@@ -134,7 +145,7 @@
 /* time card */
 .sc-time-card,
 .sc-occasion-card {
-  background-color: #ffd1d2;
+  background-color: #FFE4E4;
   border-radius: 16px;
   padding: 16px 24px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
@@ -154,21 +165,31 @@
 }
 
 .sc-time-btn {
-  width: 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   border: none;
   background-color: #f9f6f2;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  font-size: 1.3rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
+.sc-time-btn img.sc-time-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
 .sc-time-btn.is-selected {
-  background-color: #ffe5e6;
+  background-color: #FD9495;
   transform: translateY(-2px);
 }
+
 
 /* occasion input */
 .sc-occasion-input {

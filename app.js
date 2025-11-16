@@ -196,6 +196,12 @@ async function initializePageEvents(pageName) {
         currentCleanupFunction = saveCalendarModule.cleanupSaveCalendarPage;
         break;
 
+      case 'edit-outfit':
+        const editOutfitModule = await import('./page-logic/logic-edit-outfit.js');
+        editOutfitModule.initEditOutfitPage();
+        currentCleanupFunction = editOutfitModule.cleanupEditOutfitPage;
+        break;
+
       default:
         currentCleanupFunction = () => {};
     }

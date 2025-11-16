@@ -23,19 +23,33 @@
   margin-bottom: 30px;
 }
 
-.os-back-btn {
+.backBtn img.back-icon {
   position: absolute;
   left: 0;
-  border: none;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  color: #000;
+}
+
+.backBtn {
   background: transparent;
-  font-size: 1.2rem;
+  border: none;
+  padding: 0; /* remove spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
 .os-title {
-  font-size: 1.7rem;
-  letter-spacing: 0.15em;
-  color: #f3bfc0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 0.4rem;
 }
 
 /* main layout */
@@ -62,7 +76,7 @@
 .os-card {
   display: flex;
   align-items: center;
-  background-color: #ffd1d2;
+  background-color: #F3DBDC;
   border-radius: 16px;
   padding: 0.8rem 1.4rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -144,35 +158,39 @@
 }
 
 .os-save-calendar-btn {
+  padding: 1.7rem 3.6rem;
   border: none;
-  border-radius: 999px;
-  padding: 1rem 2.8rem;
-  font-size: 1rem;
+  border-radius: 20px;
   background-color: #ffd1d2;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  font-size: 1.25rem;
   cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+  transition: background-color .2s ease;
 }
 
 .os-save-calendar-btn:hover {
   background-color: #f3bfc0;
 }
 
-.os-save-images-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
+.os-download-btn {
+  background: transparent;
   border: none;
-  background-color: #ffd1d2;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
   cursor: pointer;
 }
 
-.os-save-images-btn:hover {
-  background-color: #f3bfc0;
+
+.os-download-btn img {
+  border: none;
+  background-color: transparent;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  cursor: pointer;
+  color: #000;
 }
 
 /* responsive */

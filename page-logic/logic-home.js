@@ -4,7 +4,7 @@ import { renderItemsToContainer } from '../utils/renderer.js';
 
 // ----- UPDATE DATE & TIME (KODE ANDA - SUDAH BENAR) -----
 function updateDateTime() {
-  const dateElement = document.querySelector(".date span");
+  const dateElement = document.querySelector(".date-day span");
   if (dateElement) {
     const now = new Date();
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -115,6 +115,20 @@ export function initHomePage() {
     updateDateTime();
     updateWeather();
   }
+  const calendarBtn = document.getElementById('home-calendar-btn');
+  if (calendarBtn) {
+    calendarBtn.addEventListener('click', () => {
+      // if your app uses loadPage (typical in this project)
+      if (window.loadPage) {
+        window.loadPage('calendar');
+      } else {
+        // fallback: custom navigate event
+        window.dispatchEvent(
+          new CustomEvent('navigate', { detail: { page: 'calendar' } })
+        );
+      }
+    });
+  }  
 }
 
 export function cleanupHomePage() {

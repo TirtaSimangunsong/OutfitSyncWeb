@@ -192,7 +192,7 @@ async function handleSaveToCalendar() {
   const docData = {
     userId: user.uid,
     date: selectedDateISO,          // string "2025-11-11"
-    time: capitalize(selectedTimeSlot), // "Morning", "Afternoon", etc
+    time: selectedTimeSlot,  // keep lowercase, since your icons use lowercase slots
     occasion: occasion,
     isLiked: false,
     outfit: outfitMap,
@@ -243,13 +243,15 @@ export function initSaveCalendarPage() {
   }
 
   // Back button → go back to outfit summary
-  const backBtn = document.getElementById("sc-back-btn");
+  const backBtn = document.querySelector('.backBtn');
   if (backBtn) {
     const handler = () => {
-      if (window.loadPage) window.loadPage("outfit-summary");
+      window.dispatchEvent(
+        new CustomEvent('navigate', { detail: { page: 'outfit-summary' } })
+      );
     };
-    backBtn.addEventListener("click", handler);
-    cleanupFns.push(() => backBtn.removeEventListener("click", handler));
+    backBtn.addEventListener('click', handler);
+    cleanupFns.push(() => backBtn.removeEventListener('click', handler));
   }
 }
 
