@@ -16,6 +16,35 @@ let open = false;
 // index item yang sedang/terakhir aktif
 let activeIndex = -1;
 
+/**
+ * Tentukan index default berdasarkan halaman.
+ * Di home-page, kita mau default ke button "home".
+ * Kalau tidak ketemu, fallback ke item pertama (index 0).
+ */
+function getDefaultActiveIndex() {
+  // target default di home-page
+  const DEFAULT_TARGET = "home";
+
+  const homeIndex = items.findIndex(
+    (btn) => btn.dataset.target === DEFAULT_TARGET
+  );
+
+  if (homeIndex >= 0) return homeIndex;
+  return 0; // fallback kalau entah kenapa "home" tidak ada
+}
+
+/**
+ * Pastikan activeIndex sudah punya nilai yang valid.
+ * Kalau belum pernah di-set (masih -1), pakai default (home).
+ */
+function ensureActiveIndex() {
+  if (activeIndex >= 0) return;
+  activeIndex = getDefaultActiveIndex();
+}
+
+/**
+ * Pindahkan bubble (spotlight) ke item ke-index tertentu
+ */
 function moveSpotTo(index, animate = true) {
   if (index < 0 || index >= items.length) return;
 
@@ -24,18 +53,19 @@ function moveSpotTo(index, animate = true) {
   // simpan index aktif
   activeIndex = index;
 
-  // update state active
+  // update state active pada button
   items.forEach((i) => i.classList.remove("active"));
   item.classList.add("active");
 
-  // hitung posisi tengah item relatif ke container
-  const itemCenter = item.offsetTop + item.offsetHeight / 2; // tidak terpengaruh transform
-  const newTop = itemCenter - SPOT_SIZE / 2; // TANPA -8 LAGI
+  // posisi tengah item relatif ke container (lebih stabil daripada getBoundingClientRect)
+  const itemCenter = item.offsetTop + item.offsetHeight / 2;
+  const newTop = itemCenter - SPOT_SIZE / 2;
 
   if (animate) {
     spotlight.style.transition = "top 420ms cubic-bezier(.2,.9,.2,1)";
     spotlight.style.transform = "translate(-50%, 0) scale(0.9)";
-    void spotlight.offsetWidth; // force reflow
+    // force reflow
+    void spotlight.offsetWidth;
     spotlight.style.top = `${newTop}px`;
     setTimeout(
       () => (spotlight.style.transform = "translate(-50%, 0) scale(1)"),
@@ -47,6 +77,9 @@ function moveSpotTo(index, animate = true) {
   }
 }
 
+/**
+ * Buka / tutup sidebar
+ */
 function setOpenState(isOpen) {
   open = !!isOpen;
   capsule.classList.toggle("open", open);
@@ -56,9 +89,8 @@ function setOpenState(isOpen) {
     panel.classList.remove("hidden");
 
     setTimeout(() => {
-      // kalau belum ada yang pernah diklik, default ke index 0
-      if (activeIndex < 0) activeIndex = 0;
-
+      // kalau belum ada yang pernah diklik, pakai default (home)
+      ensureActiveIndex();
       moveSpotTo(activeIndex, false);
       spotlight.style.opacity = 1;
     }, 50);
@@ -69,11 +101,13 @@ function setOpenState(isOpen) {
   }
 }
 
+/* ==== EVENT LISTENERS ==== */
+
 capsule.addEventListener("click", () => setOpenState(!open));
 
 items.forEach((btn, idx) => {
   btn.addEventListener("click", () => {
-    const targetPage = btn.dataset.target; // Misal: "home"
+    const targetPage = btn.dataset.target; // contoh: "home"
     moveSpotTo(idx, true);
 
     if (targetPage) {
@@ -86,11 +120,14 @@ items.forEach((btn, idx) => {
 });
 
 window.addEventListener("load", () => {
-  setOpenState(false);
+  // hitung ulang SPOT_SIZE kalau ada perubahan di CSS
   SPOT_SIZE =
     parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue("--spot-size")
     ) || SPOT_SIZE;
+
+  // pastikan state awal: sidebar tertutup, activeIndex belum di-set
+  setOpenState(false);
 });
 
 window.addEventListener("resize", () => {
