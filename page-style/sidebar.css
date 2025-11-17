@@ -57,6 +57,7 @@
   z-index: 100;
 }
 
+/* === CAPSULE BUTTON (OS + ARROW) === */
 .capsule {
   display: inline-flex;
   align-items: center;
@@ -71,13 +72,25 @@
   user-select: none;
   position: relative;
   z-index: 120;
-  transition: transform 200ms ease;
+  transition: background 200ms ease, transform 200ms ease;
 }
 
 .capsule:active {
   transform: translateY(2px) scale(0.997);
 }
 
+/* hover = pink */
+.capsule:hover {
+  background: #e8a7a9;
+}
+
+/* ketika di-click & ditahan (state selected dari JS) */
+.capsule.selected {
+  background: #e8a7a9 !important;
+  transform: scale(0.97);
+}
+
+/* (kalau masih pakai .chev SVG, ini opsional) */
 .capsule .chev {
   width: 20px;
   height: 20px;
@@ -89,19 +102,38 @@
 }
 
 .capsule.open .chev {
-  transform: rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .capsule.open {
   transform: translateY(2px) scale(0.97);
 }
-.capsule:hover {
-  background: #e8a7a9;
+
+/* Logo "OS" di dalam capsule */
+.logo-small {
+  height: 60px;
+  width: auto;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));
+  margin-bottom: 10px;
+  margin-right: 5px;
 }
-.capsule.selected {
-  background: #e8a7a9 !important;
-  transform: scale(0.97); /* efek "dipencet" */
+
+/* Arrow icon dari images/arrow.png */
+.arrow-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
 }
+
+.capsule.open .arrow-icon {
+  transform: translateY(-50%) rotate(-90deg);
+}
+
 /* === DROPDOWN PANEL ANIMATION === */
 .panel {
   width: 92px;
@@ -114,7 +146,6 @@
   z-index: 90;
   right: -30px;
 
-  /* Animasi dropdown */
   transform-origin: top center;
   transform: translateY(-20px);
   opacity: 0;
@@ -128,6 +159,7 @@
   pointer-events: auto;
 }
 
+/* === ITEMS & SPOTLIGHT === */
 .items {
   display: flex;
   flex-direction: column;
@@ -157,6 +189,7 @@
   transition-delay: 0.15s;
 }
 
+/* Tombol bulat */
 .item {
   width: var(--spot-size);
   height: var(--spot-size);
@@ -170,31 +203,14 @@
   z-index: 76;
   transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
+
 .item img {
   width: 40px;
   height: 40px;
   object-fit: contain;
 }
+
+/* Jangan geser Y lagi supaya tetap align dengan bubble */
 .item.active {
-  transform: translateY(-6px);
-}
-
-.logo-small {
-  height: 60px;
-  width: auto;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));
-  margin-bottom: 10px;
-}
-
-/* Arrow icon */
-.arrow-icon {
-  width: 18px; /* perbesar dari default */
-  height: 18px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-/* Saat dropdown aktif, rotate arrow */
-.capsule.open .arrow-icon {
-  transform: rotate(-90deg);
+  transform: scale(1.04); /* efek subtle tapi tidak mengubah posisi vertikal */
 }

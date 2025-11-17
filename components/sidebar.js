@@ -28,16 +28,14 @@ function moveSpotTo(index, animate = true) {
   items.forEach((i) => i.classList.remove("active"));
   item.classList.add("active");
 
-  const itemRect = item.getBoundingClientRect();
-  const containerRect = itemsContainer.getBoundingClientRect();
-  const centerY = itemRect.top - containerRect.top + itemRect.height / 2;
-  const newTop = centerY - SPOT_SIZE / 2 - 8;
+  // hitung posisi tengah item relatif ke container
+  const itemCenter = item.offsetTop + item.offsetHeight / 2; // tidak terpengaruh transform
+  const newTop = itemCenter - SPOT_SIZE / 2; // TANPA -8 LAGI
 
   if (animate) {
     spotlight.style.transition = "top 420ms cubic-bezier(.2,.9,.2,1)";
     spotlight.style.transform = "translate(-50%, 0) scale(0.9)";
-    // force reflow
-    void spotlight.offsetWidth;
+    void spotlight.offsetWidth; // force reflow
     spotlight.style.top = `${newTop}px`;
     setTimeout(
       () => (spotlight.style.transform = "translate(-50%, 0) scale(1)"),
@@ -66,8 +64,6 @@ function setOpenState(isOpen) {
     }, 50);
   } else {
     // hanya sembunyikan spotlight & panel
-    // JANGAN reset .active dan activeIndex,
-    // supaya state terakhir tetap tersimpan
     spotlight.style.opacity = 0;
     panel.classList.add("hidden");
   }
@@ -108,6 +104,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") setOpenState(false);
 });
 
+// state "selected" untuk capsule (warna pink tetap)
 capsule.addEventListener("click", () => {
   capsule.classList.toggle("selected");
 });
