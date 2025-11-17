@@ -95,7 +95,13 @@
 .capsule.open {
   transform: translateY(2px) scale(0.97);
 }
-
+.capsule:hover {
+  background: #e8a7a9;
+}
+.capsule.selected {
+  background: #e8a7a9 !important;
+  transform: scale(0.97); /* efek "dipencet" */
+}
 /* === DROPDOWN PANEL ANIMATION === */
 .panel {
   width: 92px;
