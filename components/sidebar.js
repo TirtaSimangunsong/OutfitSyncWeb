@@ -11,11 +11,20 @@ let SPOT_SIZE =
   parseFloat(
     getComputedStyle(document.documentElement).getPropertyValue("--spot-size")
   ) || 62;
+
 let open = false;
+// index item yang sedang/terakhir aktif
+let activeIndex = -1;
 
 function moveSpotTo(index, animate = true) {
   if (index < 0 || index >= items.length) return;
+
   const item = items[index];
+
+  // simpan index aktif
+  activeIndex = index;
+
+  // update state active
   items.forEach((i) => i.classList.remove("active"));
   item.classList.add("active");
 
@@ -27,6 +36,7 @@ function moveSpotTo(index, animate = true) {
   if (animate) {
     spotlight.style.transition = "top 420ms cubic-bezier(.2,.9,.2,1)";
     spotlight.style.transform = "translate(-50%, 0) scale(0.9)";
+    // force reflow
     void spotlight.offsetWidth;
     spotlight.style.top = `${newTop}px`;
     setTimeout(
@@ -46,14 +56,20 @@ function setOpenState(isOpen) {
 
   if (open) {
     panel.classList.remove("hidden");
+
     setTimeout(() => {
-      moveSpotTo(0, false); // Asumsi item pertama (profile) aktif
+      // kalau belum ada yang pernah diklik, default ke index 0
+      if (activeIndex < 0) activeIndex = 0;
+
+      moveSpotTo(activeIndex, false);
       spotlight.style.opacity = 1;
     }, 50);
   } else {
+    // hanya sembunyikan spotlight & panel
+    // JANGAN reset .active dan activeIndex,
+    // supaya state terakhir tetap tersimpan
     spotlight.style.opacity = 0;
     panel.classList.add("hidden");
-    items.forEach((i) => i.classList.remove("active"));
   }
 }
 
@@ -61,23 +77,16 @@ capsule.addEventListener("click", () => setOpenState(!open));
 
 items.forEach((btn, idx) => {
   btn.addEventListener("click", () => {
-    const targetPage = btn.dataset.target; // Misal: "profile"
+    const targetPage = btn.dataset.target; // Misal: "home"
     moveSpotTo(idx, true);
 
     if (targetPage) {
-      // ### PERUBAHAN KRUSIAL ###
-      // Kita tidak pindah halaman, tapi kirim event ke app.js
       const navEvent = new CustomEvent("navigate", {
         detail: { page: targetPage },
       });
       window.dispatchEvent(navEvent);
-      // ### AKHIR PERUBAHAN ###
     }
   });
-});
-
-capsule.addEventListener("click", () => {
-  capsule.classList.toggle("selected");
 });
 
 window.addEventListener("load", () => {
@@ -89,12 +98,16 @@ window.addEventListener("load", () => {
 });
 
 window.addEventListener("resize", () => {
-  if (open) {
-    const activeIndex = items.findIndex((i) => i.classList.contains("active"));
-    if (activeIndex >= 0) moveSpotTo(activeIndex, false);
+  if (open && activeIndex >= 0) {
+    // reposisi spotlight sesuai item aktif saat window berubah ukuran
+    moveSpotTo(activeIndex, false);
   }
 });
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") setOpenState(false);
+});
+
+capsule.addEventListener("click", () => {
+  capsule.classList.toggle("selected");
 });
