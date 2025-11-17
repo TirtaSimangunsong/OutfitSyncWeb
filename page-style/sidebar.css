@@ -60,12 +60,12 @@
 .capsule {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: linear-gradient(180deg, var(--capsule), #e8a7a9);
+  justify-content: center;
+  padding: 18px 20px;
+  background: #f6dcde;
   color: white;
   font-weight: 700;
-  border-radius: 20px;
+  border-radius: 25px;
   box-shadow: var(--shadow-strong);
   cursor: pointer;
   user-select: none;
@@ -73,21 +73,30 @@
   z-index: 120;
   transition: transform 200ms ease;
 }
+
 .capsule:active {
   transform: translateY(2px) scale(0.997);
 }
 
 .capsule .chev {
-  width: 16px;
-  height: 16px;
-  transform-origin: center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
   transition: transform 240ms ease;
-  transform: rotate(180deg);
 }
+
 .capsule.open .chev {
   transform: rotate(90deg);
 }
 
+.capsule.open {
+  transform: translateY(2px) scale(0.97);
+}
+
+/* === DROPDOWN PANEL ANIMATION === */
 .panel {
   width: 92px;
   background: linear-gradient(180deg, var(--panel), #f6dcde);
@@ -97,19 +106,20 @@
   margin-top: var(--panel-overlap);
   position: relative;
   z-index: 90;
-  transition: transform 320ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 250ms ease;
-  transform-origin: top left;
-  opacity: 1;
-  visibility: visible;
-}
-.panel.hidden {
-  transform: translateY(30px) scale(0.98);
+  right: -30px;
+
+  /* Animasi dropdown */
+  transform-origin: top center;
+  transform: translateY(-20px);
   opacity: 0;
   pointer-events: none;
-  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.3s ease;
 }
+
 .sidebar-wrap.active .panel {
-  transform: translateY(-15px) translateX(50px);
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .items {
@@ -128,7 +138,7 @@
   width: var(--spot-size);
   height: var(--spot-size);
   border-radius: 50%;
-  background: #FFB9BA;
+  background: #ffb9ba;
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
   transition: top 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
   pointer-events: none;
@@ -138,6 +148,7 @@
 
 .sidebar-wrap.active .spotlight {
   opacity: 1;
+  transition-delay: 0.15s;
 }
 
 .item {
@@ -160,4 +171,24 @@
 }
 .item.active {
   transform: translateY(-6px);
+}
+
+.logo-small {
+  height: 60px;
+  width: auto;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));
+  margin-bottom: 10px;
+}
+
+/* Arrow icon */
+.arrow-icon {
+  width: 18px; /* perbesar dari default */
+  height: 18px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Saat dropdown aktif, rotate arrow */
+.capsule.open .arrow-icon {
+  transform: rotate(-90deg);
 }
